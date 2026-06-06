@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Number Tool Pro</title>
+<title>MH SMS WORKS</title>
 
 <style>
 body{
-background:#0f1117;
+background:#0b1020;
 color:white;
 font-family:Arial,sans-serif;
 padding:15px;
@@ -17,33 +17,39 @@ margin:auto;
 
 h1{
 text-align:center;
+font-size:42px;
+color:#00ffcc;
+text-shadow:0 0 5px #00ffcc,0 0 10px #00ffcc,0 0 20px #00ffcc,0 0 40px #00ffcc;
 }
 
 textarea{
 width:100%;
-height:180px;
+height:220px;
 padding:12px;
-border-radius:10px;
-font-size:16px;
 border:none;
-margin-bottom:10px;
+border-radius:12px;
+font-size:16px;
+margin-bottom:15px;
+box-sizing:border-box;
 }
 
 input{
-padding:10px;
-border-radius:8px;
+padding:12px;
 border:none;
-margin:5px;
-width:180px;
+border-radius:10px;
+font-size:16px;
+width:100%;
+box-sizing:border-box;
+margin-bottom:10px;
 }
 
 button{
-padding:10px 15px;
+padding:12px 18px;
 border:none;
-border-radius:8px;
+border-radius:10px;
+font-size:16px;
 cursor:pointer;
 margin:5px;
-font-size:14px;
 }
 
 .green{background:#28a745;color:white;}
@@ -51,68 +57,52 @@ font-size:14px;
 .red{background:#dc3545;color:white;}
 
 #count{
-margin-top:10px;
-font-size:20px;
+font-size:22px;
 font-weight:bold;
+margin:15px 0;
 }
 
 .row{
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:#1c1f26;
-padding:12px;
-margin-top:8px;
-border-radius:10px;
+background:#1b1f2e;
+padding:18px;
+margin-top:10px;
+border-radius:15px;
 word-break:break-all;
 }
 
 .copyBtn{
 background:white;
 color:black;
+font-weight:bold;
 }
 
-.controls{
-margin-top:10px;
-margin-bottom:10px;
+.btns{
+display:flex;
+flex-wrap:wrap;
+gap:5px;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Number Tool Pro</h1>
+<h1>MH SMS WORKS</h1>
 
-<textarea id="numbers" placeholder="Paste numbers here..."></textarea>
+<textarea id="numbers" placeholder="Paste Lamix Data Here..."></textarea>
 
-<div class="controls">
+<input id="removePrefix" placeholder="Remove Prefix (Example: 213)">
+<button class="green" onclick="removePrefix()">Remove Prefix</button>
 
-<input id="removePrefix" placeholder="Remove Prefix">
+<input id="addPrefix" placeholder="Add Prefix (Example: 213)">
+<button class="blue" onclick="addPrefix()">Add Prefix</button>
 
-<button class="green" onclick="removePrefix()">
-Remove Prefix
-</button>
-
-<br>
-
-<input id="addPrefix" placeholder="Add Prefix">
-
-<button class="blue" onclick="addPrefix()">
-Add Prefix
-</button>
-
-<button class="blue" onclick="addPlus()">
-Add +
-</button>
-
-<button class="red" onclick="removePlus()">
-Remove +
-</button>
-
-<button class="blue" onclick="copyAll()">
-Copy All
-</button>
-
+<div class="btns">
+<button class="blue" onclick="addPlus()">Add +</button>
+<button class="red" onclick="removePlus()">Remove +</button>
+<button class="blue" onclick="copyAll()">Copy All</button>
 </div>
 
 <div id="count">Total: 0</div>
@@ -124,10 +114,13 @@ Copy All
 let current=[];
 
 function getNumbers(){
-return document.getElementById("numbers")
-.value
-.split(/\s+/)
-.filter(x=>x.trim()!="");
+
+let text=document.getElementById("numbers").value;
+
+let matches=text.match(/\d{8,15}/g);
+
+return matches || [];
+
 }
 
 function render(){
@@ -144,10 +137,7 @@ row.className="row";
 
 row.innerHTML=`
 <span>${num}</span>
-<button class="copyBtn"
-onclick="copyNumber('${num}')">
-📋 Copy
-</button>
+<button class="copyBtn" onclick="copyNumber('${num}')">📋 Copy</button>
 `;
 
 result.appendChild(row);
@@ -173,8 +163,7 @@ if(current.length===0){
 current=getNumbers();
 }
 
-let prefix=document.getElementById("removePrefix")
-.value.trim();
+let prefix=document.getElementById("removePrefix").value.trim();
 
 if(!prefix) return;
 
@@ -200,8 +189,7 @@ if(current.length===0){
 current=getNumbers();
 }
 
-let prefix=document.getElementById("addPrefix")
-.value;
+let prefix=document.getElementById("addPrefix").value.trim();
 
 if(!prefix) return;
 
@@ -243,7 +231,13 @@ function copyNumber(num){
 
 navigator.clipboard.writeText(num);
 
-alert("Copied: "+num);
+let index=current.indexOf(num);
+
+if(index>-1){
+current.splice(index,1);
+}
+
+render();
 
 }
 
@@ -253,16 +247,13 @@ if(current.length===0){
 current=getNumbers();
 }
 
-navigator.clipboard.writeText(
-current.join("\n")
-);
+navigator.clipboard.writeText(current.join("\n"));
 
-alert("All copied");
+alert("All Numbers Copied");
 
 }
 
-document.getElementById("numbers")
-.addEventListener("input",loadNumbers);
+document.getElementById("numbers").addEventListener("input",loadNumbers);
 
 </script>
 
