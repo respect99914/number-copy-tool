@@ -3,60 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Number Copy Tool Pro</title>
+<title>Number Tool Pro</title>
 
 <style>
 body{
 background:#111;
-color:#fff;
+color:white;
 font-family:Arial;
 padding:15px;
 max-width:900px;
 margin:auto;
 }
-
-h2{
-text-align:center;
-}
-
 textarea{
 width:100%;
 height:180px;
 padding:10px;
-border-radius:8px;
+border-radius:10px;
 font-size:16px;
 }
-
-input{
-width:100%;
-padding:10px;
-margin-top:10px;
-border-radius:8px;
-}
-
 button{
-padding:10px;
+padding:10px 15px;
 margin:5px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-font-size:15px;
 }
-
-.green{
-background:#28a745;
-color:white;
-}
-
-.blue{
-background:#007bff;
-color:white;
-}
-
-.red{
-background:#dc3545;
-color:white;
-}
+.green{background:#28a745;color:#fff;}
+.blue{background:#007bff;color:#fff;}
+.red{background:#dc3545;color:#fff;}
 
 .row{
 display:flex;
@@ -64,11 +38,11 @@ justify-content:space-between;
 align-items:center;
 background:#222;
 padding:10px;
-margin-top:6px;
+margin-top:5px;
 border-radius:8px;
 }
 
-.count{
+#count{
 margin-top:10px;
 font-size:18px;
 font-weight:bold;
@@ -78,21 +52,18 @@ font-weight:bold;
 
 <body>
 
-<h2>Number Copy Tool Pro</h2>
+<h2>Number Tool Pro</h2>
 
 <textarea id="numbers" placeholder="Paste numbers here"></textarea>
 
-<input id="prefix" placeholder="Country Code (216,244,880...)">
-
 <br>
 
-<button class="green" onclick="generate()">Generate</button>
+<button class="green" onclick="removeCountryCode()">Remove Country Code</button>
+<button class="blue" onclick="addPlus()">Add +</button>
+<button class="red" onclick="removePlus()">Remove +</button>
 <button class="blue" onclick="copyAll()">Copy All</button>
-<button class="red" onclick="removeDuplicates()">Remove Duplicates</button>
 
-<div class="count" id="count">
-Total: 0
-</div>
+<div id="count">Total: 0</div>
 
 <div id="result"></div>
 
@@ -100,33 +71,15 @@ Total: 0
 
 let current=[];
 
-function getNumbers(){
+const countryCodes=[
+"216","244","880","91","44","1","269"
+];
 
+function getNumbers(){
 return document.getElementById("numbers")
 .value
 .split(/\s+/)
 .filter(x=>x.trim()!="");
-
-}
-
-function generate(){
-
-let prefix=document.getElementById("prefix").value.trim();
-
-current=getNumbers().map(num=>{
-
-num=num.replace("+","");
-
-if(prefix && num.startsWith(prefix)){
-num=num.slice(prefix.length);
-}
-
-return num;
-
-});
-
-render();
-
 }
 
 function render(){
@@ -143,9 +96,8 @@ row.className="row";
 
 row.innerHTML=`
 <span>${num}</span>
-<button class="blue"
-onclick="copyNumber('${num}')">
-Copy
+<button onclick="copyNumber('${num}')">
+📋 Copy
 </button>
 `;
 
@@ -155,6 +107,56 @@ result.appendChild(row);
 
 document.getElementById("count")
 .innerText="Total: "+current.length;
+
+}
+
+function removeCountryCode(){
+
+current=getNumbers();
+
+current=current.map(num=>{
+
+num=num.replace(/^\+/,'');
+
+for(let code of countryCodes){
+
+if(num.startsWith(code)){
+return num.slice(code.length);
+}
+
+}
+
+return num;
+
+});
+
+render();
+
+}
+
+function addPlus(){
+
+if(current.length===0)
+current=getNumbers();
+
+current=current.map(x=>
+x.startsWith("+") ? x : "+"+x
+);
+
+render();
+
+}
+
+function removePlus(){
+
+if(current.length===0)
+current=getNumbers();
+
+current=current.map(x=>
+x.replace(/^\+/,'')
+);
+
+render();
 
 }
 
@@ -172,15 +174,7 @@ navigator.clipboard.writeText(
 current.join("\n")
 );
 
-alert("All numbers copied");
-
-}
-
-function removeDuplicates(){
-
-current=[...new Set(current)];
-
-render();
+alert("All copied");
 
 }
 
