@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,22 +15,31 @@ max-width:900px;
 margin:auto;
 }
 
-.logo{
-text-align:center;
-margin-bottom:10px;
-}
-
-.logo img{
-width:180px;
-max-width:90%;
-height:auto;
-}
-
 h1{
 text-align:center;
 font-size:42px;
 color:#00ffcc;
 text-shadow:0 0 5px #00ffcc,0 0 10px #00ffcc,0 0 20px #00ffcc,0 0 40px #00ffcc;
+}
+
+.watermark-box{
+position:relative;
+margin-bottom:15px;
+}
+
+.watermark-box::before{
+content:"";
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:320px;
+height:320px;
+background:url('logo.png') center center no-repeat;
+background-size:contain;
+opacity:0.35;
+pointer-events:none;
+z-index:1;
 }
 
 textarea{
@@ -41,8 +49,10 @@ padding:12px;
 border:none;
 border-radius:12px;
 font-size:16px;
-margin-bottom:15px;
 box-sizing:border-box;
+position:relative;
+z-index:2;
+background:rgba(255,255,255,0.96);
 }
 
 input{
@@ -64,14 +74,27 @@ cursor:pointer;
 margin:5px;
 }
 
-.green{background:#28a745;color:white;}
-.blue{background:#007bff;color:white;}
-.red{background:#dc3545;color:white;}
+.green{
+background:#28a745;
+color:white;
+}
+
+.blue{
+background:#007bff;
+color:white;
+}
+
+.red{
+background:#dc3545;
+color:white;
+}
 
 #count{
 font-size:22px;
 font-weight:bold;
 margin:15px 0;
+text-align:center;
+color:#00ffcc;
 }
 
 .row{
@@ -101,13 +124,11 @@ gap:5px;
 
 <body>
 
-<div class="logo">
-<img src="logo.png" alt="QyxnoraCore Logo">
-</div>
-
 <h1>QyxnoraCore</h1>
 
+<div class="watermark-box">
 <textarea id="numbers" placeholder="Paste Lamix Data Here..."></textarea>
+</div>
 
 <input id="removePrefix" placeholder="Remove Prefix (Example: 213)">
 <button class="green" onclick="removePrefix()">Remove Prefix</button>
