@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,7 +20,7 @@ h1{
 text-align:center;
 font-size:42px;
 color:#00ffcc;
-text-shadow:0 0 5px #00ffcc,0 0 10px #00ffcc,0 0 20px #00ffcc,0 0 40px #00ffcc;
+text-shadow:0 0 5px #00ffcc,0 0 10px #00ffcc,0 0 20px #00ffcc;
 }
 
 .watermark-box{
@@ -33,11 +34,11 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-width:320px;
-height:320px;
+width:450px;
+height:450px;
 background:url('logo.png') center center no-repeat;
 background-size:contain;
-opacity:0.35;
+opacity:0.85;
 pointer-events:none;
 z-index:1;
 }
@@ -52,7 +53,7 @@ font-size:16px;
 box-sizing:border-box;
 position:relative;
 z-index:2;
-background:rgba(255,255,255,0.96);
+background:rgba(255,255,255,0.88);
 }
 
 input{
@@ -74,27 +75,14 @@ cursor:pointer;
 margin:5px;
 }
 
-.green{
-background:#28a745;
-color:white;
-}
-
-.blue{
-background:#007bff;
-color:white;
-}
-
-.red{
-background:#dc3545;
-color:white;
-}
+.green{background:#28a745;color:white;}
+.blue{background:#007bff;color:white;}
+.red{background:#dc3545;color:white;}
 
 #count{
 font-size:22px;
 font-weight:bold;
 margin:15px 0;
-text-align:center;
-color:#00ffcc;
 }
 
 .row{
@@ -143,155 +131,92 @@ gap:5px;
 </div>
 
 <div id="count">Total: 0</div>
-
 <div id="result"></div>
 
 <script>
-
 let current=[];
 
 function getNumbers(){
-
 let text=document.getElementById("numbers").value;
-
 let matches=text.match(/\d{8,15}/g);
-
 return matches || [];
-
 }
 
 function render(){
-
 let result=document.getElementById("result");
-
 result.innerHTML="";
 
 current.forEach(num=>{
-
 let row=document.createElement("div");
-
 row.className="row";
-
 row.innerHTML=`
 <span>${num}</span>
 <button class="copyBtn" onclick="copyNumber('${num}')">📋 Copy</button>
 `;
-
 result.appendChild(row);
-
 });
 
-document.getElementById("count").innerText=
-"Total: "+current.length;
-
+document.getElementById("count").innerText="Total: "+current.length;
 }
 
 function loadNumbers(){
-
 current=getNumbers();
-
 render();
-
 }
 
 function removePrefix(){
-
-if(current.length===0){
-current=getNumbers();
-}
-
+if(current.length===0) current=getNumbers();
 let prefix=document.getElementById("removePrefix").value.trim();
-
 if(!prefix) return;
 
 current=current.map(num=>{
-
 let clean=num.replace(/^\+/,'');
-
 if(clean.startsWith(prefix)){
 return clean.slice(prefix.length);
 }
-
 return clean;
-
 });
 
 render();
-
 }
 
 function addPrefix(){
-
-if(current.length===0){
-current=getNumbers();
-}
-
+if(current.length===0) current=getNumbers();
 let prefix=document.getElementById("addPrefix").value.trim();
-
 if(!prefix) return;
 
 current=current.map(num=>prefix+num);
-
 render();
-
 }
 
 function addPlus(){
-
-if(current.length===0){
-current=getNumbers();
-}
-
-current=current.map(num=>
-num.startsWith("+") ? num : "+"+num
-);
-
+if(current.length===0) current=getNumbers();
+current=current.map(num=>num.startsWith("+") ? num : "+"+num);
 render();
-
 }
 
 function removePlus(){
-
-if(current.length===0){
-current=getNumbers();
-}
-
-current=current.map(num=>
-num.replace(/^\+/,'')
-);
-
+if(current.length===0) current=getNumbers();
+current=current.map(num=>num.replace(/^\+/,''));
 render();
-
 }
 
 function copyNumber(num){
-
 navigator.clipboard.writeText(num);
-
 let index=current.indexOf(num);
-
 if(index>-1){
 current.splice(index,1);
 }
-
 render();
-
 }
 
 function copyAll(){
-
-if(current.length===0){
-current=getNumbers();
-}
-
+if(current.length===0) current=getNumbers();
 navigator.clipboard.writeText(current.join("\n"));
-
 alert("All Numbers Copied");
-
 }
 
 document.getElementById("numbers").addEventListener("input",loadNumbers);
-
 </script>
 
 </body>
