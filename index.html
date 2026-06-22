@@ -1,30 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QyxnoraCore</title>
 
 <style>
-body{
-background:#0b1020;
-color:white;
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 font-family:Arial,sans-serif;
+}
+
+body{
+background:#050816;
+color:white;
 padding:15px;
-max-width:900px;
+max-width:1100px;
 margin:auto;
 }
 
 h1{
 text-align:center;
-font-size:42px;
-color:#00ffcc;
-text-shadow:0 0 5px #00ffcc,0 0 10px #00ffcc,0 0 20px #00ffcc;
+font-size:58px;
+font-weight:800;
+margin-bottom:20px;
+background:linear-gradient(90deg,#00f0ff,#8a7dff,#ff4dff);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+text-shadow:0 0 25px rgba(0,255,255,.5);
+}
+
+.glass{
+background:rgba(255,255,255,.05);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+border-radius:20px;
+box-shadow:0 0 25px rgba(0,255,255,.08);
 }
 
 .watermark-box{
 position:relative;
-margin-bottom:15px;
+margin-bottom:20px;
+overflow:hidden;
 }
 
 .watermark-box::before{
@@ -33,79 +53,179 @@ position:absolute;
 top:50%;
 left:50%;
 transform:translate(-50%,-50%);
-width:450px;
-height:450px;
+width:420px;
+height:420px;
 background:url('logo.png') center center no-repeat;
 background-size:contain;
-opacity:0.85;
+opacity:.08;
 pointer-events:none;
 z-index:1;
 }
 
 textarea{
 width:100%;
-height:220px;
-padding:12px;
+height:240px;
+background:transparent;
+color:white;
 border:none;
-border-radius:12px;
+outline:none;
+padding:20px;
 font-size:16px;
-box-sizing:border-box;
+resize:none;
 position:relative;
 z-index:2;
-background:rgba(255,255,255,0.88);
 }
 
-input{
-padding:12px;
-border:none;
-border-radius:10px;
-font-size:16px;
+textarea::placeholder{
+color:#9aa3b2;
+}
+
+.input-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+margin-top:15px;
+margin-bottom:15px;
+}
+
+.input-card{
+padding:15px;
+}
+
+.input-card input{
 width:100%;
-box-sizing:border-box;
+padding:14px;
+background:#0f172a;
+border:1px solid rgba(255,255,255,.08);
+border-radius:12px;
+color:white;
+outline:none;
 margin-bottom:10px;
 }
 
-button{
-padding:12px 18px;
+.btn{
+width:100%;
+padding:14px;
 border:none;
-border-radius:10px;
-font-size:16px;
+border-radius:12px;
 cursor:pointer;
-margin:5px;
+font-size:16px;
+font-weight:700;
+color:white;
 }
 
-.green{background:#28a745;color:white;}
-.blue{background:#007bff;color:white;}
-.red{background:#dc3545;color:white;}
+.green{
+background:linear-gradient(90deg,#00c97d,#00a86b);
+}
 
-#count{
-font-size:22px;
-font-weight:bold;
-margin:15px 0;
+.blue{
+background:linear-gradient(90deg,#2155ff,#3a86ff);
+}
+
+.red{
+background:linear-gradient(90deg,#ff3366,#d90429);
+}
+
+.purple{
+background:linear-gradient(90deg,#7b2ff7,#b5179e);
+}
+
+.action-grid{
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
+gap:15px;
+margin-top:15px;
+}
+
+.stats{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:15px;
+margin-top:20px;
+margin-bottom:20px;
+}
+
+.stat-card{
+padding:20px;
+text-align:center;
+}
+
+.stat-title{
+font-size:15px;
+opacity:.8;
+margin-bottom:10px;
+}
+
+.stat-value{
+font-size:32px;
+font-weight:700;
+}
+
+#result{
+margin-top:20px;
 }
 
 .row{
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:#1b1f2e;
-padding:18px;
-margin-top:10px;
+padding:15px;
+margin-bottom:10px;
 border-radius:15px;
-word-break:break-all;
+background:rgba(255,255,255,.04);
+border:1px solid rgba(255,255,255,.08);
+}
+
+.left{
+display:flex;
+align-items:center;
+gap:12px;
+flex-wrap:wrap;
+}
+
+.flag{
+font-size:24px;
+}
+
+.country{
+font-size:14px;
+color:#8ec5ff;
+}
+
+.number{
+font-size:18px;
+font-weight:700;
 }
 
 .copyBtn{
-background:white;
-color:black;
+background:#00d4aa;
+border:none;
+padding:10px 18px;
+border-radius:10px;
+cursor:pointer;
 font-weight:bold;
 }
 
-.btns{
-display:flex;
-flex-wrap:wrap;
-gap:5px;
+@media(max-width:768px){
+
+.input-grid{
+grid-template-columns:1fr;
 }
+
+.action-grid{
+grid-template-columns:1fr;
+}
+
+.stats{
+grid-template-columns:1fr 1fr;
+}
+
+h1{
+font-size:42px;
+}
+
+}
+
 </style>
 </head>
 
@@ -113,109 +233,372 @@ gap:5px;
 
 <h1>QyxnoraCore</h1>
 
-<div class="watermark-box">
+<div class="glass watermark-box">
 <textarea id="numbers" placeholder="Paste Lamix Data Here..."></textarea>
 </div>
 
-<input id="removePrefix" placeholder="Remove Prefix (Example: 213)">
-<button class="green" onclick="removePrefix()">Remove Prefix</button>
+<div class="input-grid">
 
-<input id="addPrefix" placeholder="Add Prefix (Example: 213)">
-<button class="blue" onclick="addPrefix()">Add Prefix</button>
-
-<div class="btns">
-<button class="blue" onclick="addPlus()">Add +</button>
-<button class="red" onclick="removePlus()">Remove +</button>
-<button class="blue" onclick="copyAll()">Copy All</button>
+<div class="glass input-card">
+<input id="removePrefix" placeholder="Remove Prefix (Country Code)">
+<button class="btn green" onclick="removePrefix()">Remove Prefix</button>
 </div>
 
-<div id="count">Total: 0</div>
+<div class="glass input-card">
+<input id="addPrefix" placeholder="Add Prefix (Country Code)">
+<button class="btn blue" onclick="addPrefix()">Add Prefix</button>
+</div>
+
+</div>
+
+<div class="action-grid">
+
+<button class="btn blue" onclick="addPlus()">Add +</button>
+
+<button class="btn red" onclick="removePlus()">Remove +</button>
+
+<button class="btn purple" onclick="copyAll()">Copy All</button>
+
+<button class="btn green" onclick="clearAll()">Clear All</button>
+
+<button class="btn blue" onclick="removeDuplicate()">Remove Duplicate</button>
+
+<button class="btn purple" onclick="downloadTxt()">Download TXT</button>
+
+</div>
+
+<div class="stats">
+
+<div class="glass stat-card">
+<div class="stat-title">Total</div>
+<div class="stat-value" id="total">0</div>
+</div>
+
+<div class="glass stat-card">
+<div class="stat-title">Copied</div>
+<div class="stat-value" id="copied">0</div>
+</div>
+
+<div class="glass stat-card">
+<div class="stat-title">Remaining</div>
+<div class="stat-value" id="remaining">0</div>
+</div>
+
+<div class="glass stat-card">
+<div class="stat-title">Countries</div>
+<div class="stat-value" id="countries">0</div>
+</div>
+
+</div>
+
 <div id="result"></div>
 
 <script>
+
 let current=[];
+let copiedCount=0;
+
+const flags={
+"Malaysia":"🇲🇾",
+"Indonesia":"🇮🇩",
+"Thailand":"🇹🇭",
+"Vietnam":"🇻🇳",
+"Singapore":"🇸🇬",
+"India":"🇮🇳",
+"Pakistan":"🇵🇰",
+"Bangladesh":"🇧🇩",
+"Philippines":"🇵🇭"
+};
+  function detectCountry(text){
+for(let country in flags){
+if(text.includes(country)){
+return country;
+}
+}
+return "Unknown";
+}
 
 function getNumbers(){
+
 let text=document.getElementById("numbers").value;
-let matches=text.match(/\d{8,15}/g);
-return matches || [];
+
+let lines=text.split("\n");
+
+let data=[];
+
+lines.forEach(line=>{
+
+let match=line.match(/\d{8,15}/);
+
+if(match){
+
+data.push({
+number:match[0],
+country:detectCountry(line)
+});
+
+}
+
+});
+
+return data;
+
 }
 
 function render(){
+
 let result=document.getElementById("result");
+
 result.innerHTML="";
 
-current.forEach(num=>{
+let countrySet=new Set();
+
+current.forEach(item=>{
+
+countrySet.add(item.country);
+
+let flag=flags[item.country] || "🌍";
+
 let row=document.createElement("div");
+
 row.className="row";
+
 row.innerHTML=`
-<span>${num}</span>
-<button class="copyBtn" onclick="copyNumber('${num}')">📋 Copy</button>
+
+<div class="left">
+
+<div class="flag">${flag}</div>
+
+<div>
+
+<div class="country">${item.country}</div>
+
+<div class="number">${item.number}</div>
+
+</div>
+
+</div>
+
+<button class="copyBtn"
+onclick="copyNumber('${item.number}')">
+📋 Copy
+</button>
+
 `;
+
 result.appendChild(row);
+
 });
 
-document.getElementById("count").innerText="Total: "+current.length;
+document.getElementById("total").innerText=
+current.length+copiedCount;
+
+document.getElementById("copied").innerText=
+copiedCount;
+
+document.getElementById("remaining").innerText=
+current.length;
+
+document.getElementById("countries").innerText=
+countrySet.size;
+
 }
 
 function loadNumbers(){
+
 current=getNumbers();
+
 render();
+
 }
 
 function removePrefix(){
-if(current.length===0) current=getNumbers();
-let prefix=document.getElementById("removePrefix").value.trim();
+
+if(current.length===0)
+current=getNumbers();
+
+let prefix=
+document.getElementById("removePrefix")
+.value.trim();
+
 if(!prefix) return;
 
-current=current.map(num=>{
-let clean=num.replace(/^\+/,'');
-if(clean.startsWith(prefix)){
-return clean.slice(prefix.length);
+current=current.map(item=>{
+
+let num=item.number;
+
+if(num.startsWith(prefix)){
+num=num.slice(prefix.length);
 }
-return clean;
+
+return {
+...item,
+number:num
+};
+
 });
 
 render();
+
 }
 
 function addPrefix(){
-if(current.length===0) current=getNumbers();
-let prefix=document.getElementById("addPrefix").value.trim();
+
+if(current.length===0)
+current=getNumbers();
+
+let prefix=
+document.getElementById("addPrefix")
+.value.trim();
+
 if(!prefix) return;
 
-current=current.map(num=>prefix+num);
-render();
-}
+current=current.map(item=>({
+...item,
+number:prefix+item.number
+}));
 
-function addPlus(){
-if(current.length===0) current=getNumbers();
-current=current.map(num=>num.startsWith("+") ? num : "+"+num);
 render();
+
+  }
+  function addPlus(){
+
+if(current.length===0)
+current=getNumbers();
+
+current=current.map(item=>({
+
+...item,
+
+number:item.number.startsWith("+")
+? item.number
+: "+"+item.number
+
+}));
+
+render();
+
 }
 
 function removePlus(){
-if(current.length===0) current=getNumbers();
-current=current.map(num=>num.replace(/^\+/,''));
+
+if(current.length===0)
+current=getNumbers();
+
+current=current.map(item=>({
+
+...item,
+
+number:item.number.replace(/^\+/,'')
+
+}));
+
 render();
+
 }
 
 function copyNumber(num){
+
 navigator.clipboard.writeText(num);
-let index=current.indexOf(num);
+
+let index=current.findIndex(
+item=>item.number===num
+);
+
 if(index>-1){
+
 current.splice(index,1);
+
+copiedCount++;
+
 }
+
 render();
+
 }
 
 function copyAll(){
-if(current.length===0) current=getNumbers();
-navigator.clipboard.writeText(current.join("\n"));
+
+if(current.length===0) return;
+
+navigator.clipboard.writeText(
+
+current.map(x=>x.number).join("\n")
+
+);
+
+copiedCount+=current.length;
+
+current=[];
+
+render();
+
 alert("All Numbers Copied");
+
 }
 
-document.getElementById("numbers").addEventListener("input",loadNumbers);
+function removeDuplicate(){
+
+let seen=new Set();
+
+current=current.filter(item=>{
+
+if(seen.has(item.number)){
+return false;
+}
+
+seen.add(item.number);
+
+return true;
+
+});
+
+render();
+
+}
+
+function downloadTxt(){
+
+let text=current
+.map(x=>x.number)
+.join("\n");
+
+let blob=new Blob(
+[text],
+{type:"text/plain"}
+);
+
+let a=document.createElement("a");
+
+a.href=
+URL.createObjectURL(blob);
+
+a.download="numbers.txt";
+
+a.click();
+
+}
+
+function clearAll(){
+
+current=[];
+
+copiedCount=0;
+
+document.getElementById("numbers")
+.value="";
+
+render();
+
+}
+
+document
+.getElementById("numbers")
+.addEventListener(
+"input",
+loadNumbers
+);
+
 </script>
 
 </body>
