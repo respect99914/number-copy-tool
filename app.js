@@ -1,33 +1,63 @@
+/*=========================
+  QyxnoraCore v2
+  app.js - PART 1
+=========================*/
+
 let current = [];
-let copiedCount = 0;
+let copied = [];
+let currentProject = null;
+
+const textarea = document.getElementById("numbers");
+const result = document.getElementById("result");
+
+const totalBox = document.getElementById("total");
+const copiedBox = document.getElementById("copied");
+const remainingBox = document.getElementById("remaining");
+const countriesBox = document.getElementById("countries");
 
 const flags = {
+
 "Afghanistan":"🇦🇫",
 "Albania":"🇦🇱",
 "Algeria":"🇩🇿",
+"Angola":"🇦🇴",
 "Argentina":"🇦🇷",
+"Armenia":"🇦🇲",
 "Australia":"🇦🇺",
 "Austria":"🇦🇹",
+"Azerbaijan":"🇦🇿",
 "Bangladesh":"🇧🇩",
+"Belarus":"🇧🇾",
 "Belgium":"🇧🇪",
+"Benin":"🇧🇯",
+"Bhutan":"🇧🇹",
+"Bolivia":"🇧🇴",
 "Brazil":"🇧🇷",
 "Bulgaria":"🇧🇬",
+"Burkina Faso":"🇧🇫",
 "Cambodia":"🇰🇭",
+"Cameroon":"🇨🇲",
 "Canada":"🇨🇦",
 "Chile":"🇨🇱",
 "China":"🇨🇳",
 "Colombia":"🇨🇴",
+"Comoros":"🇰🇲",
+"Congo":"🇨🇩",
 "Croatia":"🇭🇷",
 "Czech Republic":"🇨🇿",
 "Denmark":"🇩🇰",
+"Ecuador":"🇪🇨",
 "Egypt":"🇪🇬",
 "Estonia":"🇪🇪",
 "Ethiopia":"🇪🇹",
 "Finland":"🇫🇮",
 "France":"🇫🇷",
+"Gabon":"🇬🇦",
+"Georgia":"🇬🇪",
 "Germany":"🇩🇪",
 "Ghana":"🇬🇭",
 "Greece":"🇬🇷",
+"Guinea":"🇬🇳",
 "Hungary":"🇭🇺",
 "India":"🇮🇳",
 "Indonesia":"🇮🇩",
@@ -36,20 +66,30 @@ const flags = {
 "Ireland":"🇮🇪",
 "Israel":"🇮🇱",
 "Italy":"🇮🇹",
+"Ivory Coast":"🇨🇮",
 "Japan":"🇯🇵",
 "Jordan":"🇯🇴",
 "Kazakhstan":"🇰🇿",
 "Kenya":"🇰🇪",
+"Kosovo":"🇽🇰",
 "Kuwait":"🇰🇼",
+"Kyrgyzstan":"🇰🇬",
 "Lebanon":"🇱🇧",
+"Lesotho":"🇱🇸",
 "Libya":"🇱🇾",
+"Madagascar":"🇲🇬",
 "Malaysia":"🇲🇾",
+"Mauritania":"🇲🇷",
 "Mexico":"🇲🇽",
+"Moldova":"🇲🇩",
+"Mongolia":"🇲🇳",
 "Morocco":"🇲🇦",
+"Mozambique":"🇲🇿",
 "Myanmar":"🇲🇲",
 "Nepal":"🇳🇵",
 "Netherlands":"🇳🇱",
 "New Zealand":"🇳🇿",
+"Niger":"🇳🇪",
 "Nigeria":"🇳🇬",
 "Norway":"🇳🇴",
 "Oman":"🇴🇲",
@@ -62,416 +102,705 @@ const flags = {
 "Romania":"🇷🇴",
 "Russia":"🇷🇺",
 "Saudi Arabia":"🇸🇦",
+"Senegal":"🇸🇳",
 "Serbia":"🇷🇸",
 "Singapore":"🇸🇬",
+"Slovenia":"🇸🇮",
 "South Africa":"🇿🇦",
 "South Korea":"🇰🇷",
 "Spain":"🇪🇸",
 "Sri Lanka":"🇱🇰",
+"Sudan":"🇸🇩",
 "Sweden":"🇸🇪",
 "Switzerland":"🇨🇭",
 "Syria":"🇸🇾",
+"Tajikistan":"🇹🇯",
+"Tanzania":"🇹🇿",
 "Thailand":"🇹🇭",
 "Tunisia":"🇹🇳",
 "Turkey":"🇹🇷",
-"UAE":"🇦🇪",
-"United Arab Emirates":"🇦🇪",
-"UK":"🇬🇧",
-"United Kingdom":"🇬🇧",
+"Uganda":"🇺🇬",
 "Ukraine":"🇺🇦",
-"USA":"🇺🇸",
+"United Arab Emirates":"🇦🇪",
+"United Kingdom":"🇬🇧",
 "United States":"🇺🇸",
+"USA":"🇺🇸",
+"UAE":"🇦🇪",
+"Uzbekistan":"🇺🇿",
 "Vietnam":"🇻🇳",
 "Yemen":"🇾🇪",
 "Zimbabwe":"🇿🇼"
+
 };
 
-function detectCountry(text) {
-    for (let country in flags) {
-        if (text.includes(country)) {
-            return country;
+const countryCodes = {
+
+"93":"Afghanistan",
+"355":"Albania",
+"213":"Algeria",
+"244":"Angola",
+"54":"Argentina",
+"374":"Armenia",
+"61":"Australia",
+"43":"Austria",
+"994":"Azerbaijan",
+"880":"Bangladesh",
+"375":"Belarus",
+"32":"Belgium",
+"229":"Benin",
+"975":"Bhutan",
+"591":"Bolivia",
+"55":"Brazil",
+"359":"Bulgaria",
+"226":"Burkina Faso",
+"855":"Cambodia",
+"237":"Cameroon",
+"1":"United States",
+"56":"Chile",
+"86":"China",
+"57":"Colombia",
+"269":"Comoros",
+"243":"Congo",
+"385":"Croatia",
+"420":"Czech Republic",
+"45":"Denmark",
+"593":"Ecuador",
+"20":"Egypt",
+"372":"Estonia",
+"251":"Ethiopia",
+"358":"Finland",
+"33":"France",
+"241":"Gabon",
+"995":"Georgia",
+"49":"Germany",
+"233":"Ghana",
+"30":"Greece",
+"224":"Guinea",
+"36":"Hungary",
+"91":"India",
+"62":"Indonesia",
+"98":"Iran",
+"964":"Iraq",
+"353":"Ireland",
+"972":"Israel",
+"39":"Italy",
+"225":"Ivory Coast",
+"81":"Japan",
+"962":"Jordan",
+"7":"Russia",
+"76":"Kazakhstan",
+"254":"Kenya",
+"383":"Kosovo",
+"965":"Kuwait",
+"996":"Kyrgyzstan",
+"961":"Lebanon",
+"266":"Lesotho",
+"218":"Libya",
+"261":"Madagascar",
+"60":"Malaysia",
+"222":"Mauritania",
+"52":"Mexico",
+"373":"Moldova",
+"976":"Mongolia",
+"212":"Morocco",
+"258":"Mozambique",
+"95":"Myanmar",
+"977":"Nepal",
+"31":"Netherlands",
+"64":"New Zealand",
+"227":"Niger",
+"234":"Nigeria",
+"47":"Norway",
+"968":"Oman",
+"92":"Pakistan",
+"970":"Palestine",
+"63":"Philippines",
+"48":"Poland",
+"351":"Portugal",
+"974":"Qatar",
+"40":"Romania",
+"966":"Saudi Arabia",
+"221":"Senegal",
+"381":"Serbia",
+"65":"Singapore",
+"386":"Slovenia",
+"27":"South Africa",
+"82":"South Korea",
+"34":"Spain",
+"94":"Sri Lanka",
+"249":"Sudan",
+"46":"Sweden",
+"41":"Switzerland",
+"963":"Syria",
+"992":"Tajikistan",
+"255":"Tanzania",
+"66":"Thailand",
+"216":"Tunisia",
+"90":"Turkey",
+"256":"Uganda",
+"380":"Ukraine",
+"971":"United Arab Emirates",
+"44":"United Kingdom",
+"998":"Uzbekistan",
+"84":"Vietnam",
+"967":"Yemen",
+"263":"Zimbabwe"
+
+};
+/*=========================
+ QyxnoraCore v2
+ app.js - PART 2
+=========================*/
+
+function detectCountry(text, number = "") {
+
+    for (let name in flags) {
+        if (text.toLowerCase().includes(name.toLowerCase())) {
+            return name;
         }
     }
+
+    let clean = number.replace(/\D/g, "");
+
+    const codes = Object.keys(countryCodes).sort((a, b) => b.length - a.length);
+
+    for (let code of codes) {
+        if (clean.startsWith(code)) {
+            return countryCodes[code];
+        }
+    }
+
     return "Unknown";
 }
 
-function getNumbers() {
-    const text = document.getElementById("numbers").value;
-    const lines = text.split("\n");
-    const list = [];
+function parseNumbers() {
+
+    const lines = textarea.value.split(/\n+/);
+
+    current = [];
 
     lines.forEach(line => {
-        const match = line.match(/\d{8,15}/);
 
-        if (match) {
-            list.push({
-                number: match[0],
-                country: detectCountry(line),
-                copied: false
-            });
-        }
+        let match = line.match(/\+?\d{8,15}/);
+
+        if (!match) return;
+
+        let num = match[0].trim();
+
+        current.push({
+
+            id: Date.now() + Math.random(),
+
+            number: num,
+
+            country: detectCountry(line, num),
+
+            copied: false
+
+        });
+
     });
 
-    return list;
-  }
-function updateStats() {
-    document.getElementById("totalCount").textContent = current.length;
-
-    document.getElementById("copiedCount").textContent =
-        current.filter(n => n.copied).length;
-
-    document.getElementById("pendingCount").textContent =
-        current.filter(n => !n.copied).length;
-
-    const countries = [...new Set(current.map(n => n.country))];
-    document.getElementById("countryCount").textContent = countries.length;
 }
 
-function renderNumbers() {
+function updateStats() {
 
-    const box = document.getElementById("result");
-    box.innerHTML = "";
+    totalBox.innerText = current.length;
 
-    current.forEach((item, index) => {
+    copiedBox.innerText = current.filter(x => x.copied).length;
 
-        const row = document.createElement("div");
-        row.className = item.copied ? "number copied" : "number";
+    remainingBox.innerText = current.filter(x => !x.copied).length;
 
-        row.innerHTML = `
-            <div>
-                <b>${flags[item.country] || "🌍"} ${item.country}</b><br>
-                ${item.number}
-            </div>
+    countriesBox.innerText = [...new Set(current.map(x => x.country))].length;
 
-            <button onclick="copyNumber(${index})">
-                ${item.copied ? "Copied" : "Copy"}
-            </button>
-        `;
+}
 
-        box.appendChild(row);
+function createRow(item) {
+
+    const row = document.createElement("div");
+
+    row.className = "row";
+
+    if (item.copied) {
+
+        row.style.background = "#ff4fa31f";
+
+        row.style.border = "1px solid #ff4fa3";
+
+    }
+
+    const flag = flags[item.country] || "🌍";
+
+    row.innerHTML = `
+
+<div class="left">
+
+<div class="flag">${flag}</div>
+
+<div>
+
+<div class="country">${item.country}</div>
+
+<div class="number">${item.number}</div>
+
+</div>
+
+</div>
+
+<button class="copyBtn">
+
+${item.copied ? "✅ Copied" : "📋 Copy"}
+
+</button>
+
+`;
+
+    row.querySelector(".copyBtn").onclick = () => {
+
+        navigator.clipboard.writeText(item.number);
+
+        item.copied = true;
+
+        render();
+
+    };
+
+    return row;
+
+}
+
+function render() {
+
+    result.innerHTML = "";
+
+    current.forEach(item => {
+
+        result.appendChild(createRow(item));
 
     });
 
     updateStats();
-    }
-function copyNumber(index) {
-
-    current[index].copied = true;
-
-    renderNumbers();
-
-    if (currentProject) {
-        currentProject.numbers = current;
-        updateProject(currentProject);
-    }
 
 }
 
-function loadNumbers() {
+function refreshData() {
 
-    current = getNumbers();
+    parseNumbers();
 
-    renderNumbers();
+    render();
 
 }
 
-document.getElementById("numbers").addEventListener("input", loadNumbers);
+textarea.addEventListener("input", refreshData);
 
-window.onload = function () {
+window.onload = () => {
 
-    if (currentProject && currentProject.numbers) {
-
-        current = currentProject.numbers;
-
-        renderNumbers();
-
-    }
+    refreshData();
 
 };
-function saveCurrentProject() {
+/*=========================
+ QyxnoraCore v2
+ app.js - PART 3
+=========================*/
 
-    if (!currentProject) return;
+function saveToTextarea() {
 
-    currentProject.name =
-        document.getElementById("projectName").value;
+    textarea.value = current.map(x => x.number).join("\n");
 
-    currentProject.text =
-        document.getElementById("numbers").value;
-
-    currentProject.numbers = current;
-
-    updateProject(currentProject);
-
-    const status = document.getElementById("saveStatus");
-
-    if (status) {
-        status.textContent = "✓ Auto Saved";
-    }
 }
 
-document.getElementById("projectName")
-.addEventListener("input", saveCurrentProject);
+function addPrefix() {
 
-document.getElementById("numbers")
-.addEventListener("input", function () {
+    let prefix = document.getElementById("addPrefix").value.trim();
 
-    loadNumbers();
+    if (!prefix) return;
 
-    saveCurrentProject();
+    current = current.map(item => {
 
-});
-function removeDuplicates() {
+        let num = item.number.replace(/^\+/, "");
+
+        if (!num.startsWith(prefix)) {
+            num = prefix + num;
+        }
+
+        return {
+            ...item,
+            number: num,
+            country: detectCountry("", num)
+        };
+
+    });
+
+    saveToTextarea();
+    render();
+
+}
+
+function removePrefix() {
+
+    let prefix = document.getElementById("removePrefix").value.trim();
+
+    if (!prefix) return;
+
+    current = current.map(item => {
+
+        let num = item.number.replace(/^\+/, "");
+
+        if (num.startsWith(prefix)) {
+            num = num.substring(prefix.length);
+        }
+
+        return {
+            ...item,
+            number: num,
+            country: detectCountry("", num)
+        };
+
+    });
+
+    saveToTextarea();
+    render();
+
+}
+
+function addPlus() {
+
+    current = current.map(item => ({
+
+        ...item,
+
+        number: item.number.startsWith("+")
+            ? item.number
+            : "+" + item.number
+
+    }));
+
+    saveToTextarea();
+    render();
+
+}
+
+function removePlus() {
+
+    current = current.map(item => ({
+
+        ...item,
+
+        number: item.number.replace(/^\+/, "")
+
+    }));
+
+    saveToTextarea();
+    render();
+
+}
+
+function removeDuplicate() {
 
     const seen = new Set();
 
     current = current.filter(item => {
-        if (seen.has(item.number)) return false;
-        seen.add(item.number);
+
+        let key = item.number.replace(/\D/g, "");
+
+        if (seen.has(key)) return false;
+
+        seen.add(key);
+
         return true;
+
     });
 
-    renderNumbers();
-    saveCurrentProject();
+    saveToTextarea();
+    render();
+
 }
 
 function copyAll() {
 
-    const text = current.map(item => item.number).join("\n");
+    if (!current.length) return;
 
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(
 
-    current.forEach(item => item.copied = true);
+        current.map(x => x.number).join("\n")
 
-    renderNumbers();
-    saveCurrentProject();
+    );
 
-    alert("All numbers copied successfully!");
+    current.forEach(x => x.copied = true);
+
+    render();
+
+    alert("All Numbers Copied");
+
+}
+
+function clearAll() {
+
+    current = [];
+
+    textarea.value = "";
+
+    render();
+
 }
 
 function downloadTxt() {
 
-    const text = current.map(item => item.number).join("\n");
+    const blob = new Blob(
 
-    const blob = new Blob([text], { type: "text/plain" });
+        [current.map(x => x.number).join("\n")],
+
+        { type: "text/plain" }
+
+    );
 
     const a = document.createElement("a");
 
     a.href = URL.createObjectURL(blob);
 
-    a.download = (currentProject ? currentProject.name : "numbers") + ".txt";
+    a.download = "numbers.txt";
 
     a.click();
 
-    URL.revokeObjectURL(a.href);
 }
 
-function clearAll() {
-
-    if (!confirm("Clear all numbers?")) return;
-
-    current = [];
-
-    document.getElementById("numbers").value = "";
-
-    renderNumbers();
-
-    saveCurrentProject();
-        }
-function searchNumbers(keyword = "") {
+function searchNumber(keyword) {
 
     keyword = keyword.toLowerCase();
 
-    const box = document.getElementById("result");
+    document.querySelectorAll(".row").forEach(row => {
 
-    box.innerHTML = "";
+        row.style.display =
 
-    current
-        .filter(item =>
-            item.number.includes(keyword) ||
-            item.country.toLowerCase().includes(keyword)
-        )
-        .forEach((item, index) => {
+            row.innerText.toLowerCase().includes(keyword)
 
-            const row = document.createElement("div");
+                ? "flex"
 
-            row.className = item.copied ? "number copied" : "number";
+                : "none";
 
-            row.innerHTML = `
-                <div>
-                    <b>${flags[item.country] || "🌍"} ${item.country}</b><br>
-                    ${item.number}
-                </div>
+    });
 
-                <button onclick="copyNumber(${index})">
-                    ${item.copied ? "Copied" : "Copy"}
-                </button>
-            `;
-
-            box.appendChild(row);
-
-        });
 }
+/*=========================
+ QyxnoraCore v2
+ app.js - PART 4 (FINAL)
+=========================*/
+
+function saveData() {
+
+    localStorage.setItem("qyxnora_numbers", JSON.stringify(current));
+
+    localStorage.setItem("qyxnora_text", textarea.value);
+
+    alert("Data Saved");
+
+}
+
+function loadSavedData() {
+
+    const saved = localStorage.getItem("qyxnora_numbers");
+    const text = localStorage.getItem("qyxnora_text");
+
+    if (text) {
+        textarea.value = text;
+    }
+
+    if (saved) {
+
+        try {
+
+            current = JSON.parse(saved);
+
+            render();
+
+        } catch (e) {
+
+            refreshData();
+
+        }
+
+    }
+
+}
+
+window.addEventListener("beforeunload", () => {
+
+    localStorage.setItem("qyxnora_numbers", JSON.stringify(current));
+
+    localStorage.setItem("qyxnora_text", textarea.value);
+
+});
+
+document.addEventListener("keydown", e => {
+
+    if (e.ctrlKey && e.key.toLowerCase() === "s") {
+
+        e.preventDefault();
+
+        saveData();
+
+    }
+
+    if (e.ctrlKey && e.key.toLowerCase() === "f") {
+
+        e.preventDefault();
+
+        let keyword = prompt("Search Number or Country");
+
+        if (keyword) {
+
+            searchNumber(keyword);
+
+        }
+
+    }
+
+});
+
+loadSavedData();
+
+setInterval(() => {
+
+    updateStats();
+
+}, 1000);
+
+console.log("QyxnoraCore v2 Loaded Successfully");
+/*=========================
+ QyxnoraCore v2
+ app.js - PART 5
+=========================*/
+
+// ===== Filter =====
 
 function showPending() {
 
-    const box = document.getElementById("result");
-
-    box.innerHTML = "";
+    result.innerHTML = "";
 
     current
-        .filter(item => !item.copied)
-        .forEach((item, index) => {
+    .filter(item => !item.copied)
+    .forEach(item => {
 
-            const row = document.createElement("div");
+        result.appendChild(createRow(item));
 
-            row.className = "number";
+    });
 
-            row.innerHTML = `
-                <div>
-                    <b>${flags[item.country] || "🌍"} ${item.country}</b><br>
-                    ${item.number}
-                </div>
-
-                <button onclick="copyNumber(${index})">Copy</button>
-            `;
-
-            box.appendChild(row);
-
-        });
 }
 
 function showCopied() {
 
-    const box = document.getElementById("result");
-
-    box.innerHTML = "";
+    result.innerHTML = "";
 
     current
-        .filter(item => item.copied)
-        .forEach((item, index) => {
+    .filter(item => item.copied)
+    .forEach(item => {
 
-            const row = document.createElement("div");
+        result.appendChild(createRow(item));
 
-            row.className = "number copied";
-
-            row.innerHTML = `
-                <div>
-                    <b>${flags[item.country] || "🌍"} ${item.country}</b><br>
-                    ${item.number}
-                </div>
-
-                <button disabled>Copied</button>
-            `;
-
-            box.appendChild(row);
-
-        });
-}
-function filterByCountry(country) {
-
-    const box = document.getElementById("result");
-    box.innerHTML = "";
-
-    current
-        .filter(item => country === "All" || item.country === country)
-        .forEach((item, index) => {
-
-            const row = document.createElement("div");
-
-            row.className = item.copied ? "number copied" : "number";
-
-            row.innerHTML = `
-                <div>
-                    <b>${flags[item.country] || "🌍"} ${item.country}</b><br>
-                    ${item.number}
-                </div>
-                <button onclick="copyNumber(${index})">
-                    ${item.copied ? "Copied" : "Copy"}
-                </button>
-            `;
-
-            box.appendChild(row);
-        });
-}
-
-function copyPending() {
-
-    const list = current
-        .filter(x => !x.copied)
-        .map(x => x.number)
-        .join("\n");
-
-    navigator.clipboard.writeText(list);
-
-    current.forEach(x => {
-        if (!x.copied) x.copied = true;
     });
 
-    renderNumbers();
-    saveCurrentProject();
 }
 
-function deleteCopied() {
+function resetCopied() {
 
-    current = current.filter(x => !x.copied);
+    current.forEach(item => {
 
-    renderNumbers();
-    saveCurrentProject();
+        item.copied = false;
+
+    });
+
+    render();
+
 }
 
-function deletePending() {
+// ===== Sort =====
 
-    current = current.filter(x => x.copied);
+function sortNumbers() {
 
-    renderNumbers();
-    saveCurrentProject();
+    current.sort((a,b)=>
+
+        a.number.localeCompare(b.number)
+
+    );
+
+    render();
+
 }
 
-function renameProject() {
+function sortCountries() {
 
-    if (!currentProject) return;
+    current.sort((a,b)=>
 
-    const name = prompt("New Project Name", currentProject.name);
+        a.country.localeCompare(b.country)
 
-    if (!name) return;
+    );
 
-    currentProject.name = name;
+    render();
 
-    document.getElementById("projectName").value = name;
-
-    updateProject(currentProject);
-
-    renderProjects();
 }
 
-function deleteProjectConfirm() {
+// ===== Country Filter =====
 
-    if (!currentProject) return;
+function filterCountry(country){
 
-    if (!confirm("Delete this project?")) return;
+    result.innerHTML="";
 
-    deleteProject(currentProject.id);
+    current
+    .filter(item=>item.country===country)
+    .forEach(item=>{
 
-    currentProject = null;
+        result.appendChild(createRow(item));
 
-    renderProjects();
+    });
 
-    document.getElementById("numbers").value = "";
-    document.getElementById("projectName").value = "";
-    current = [];
-
-    renderNumbers();
 }
 
-function refreshDashboard() {
+// ===== JSON Export =====
 
-    updateStats();
+function exportJSON(){
 
-    const status = document.getElementById("saveStatus");
+    const blob=new Blob(
 
-    if (status) {
-        status.textContent = "Ready";
-    }
+        [JSON.stringify(current,null,2)],
+
+        {type:"application/json"}
+
+    );
+
+    const a=document.createElement("a");
+
+    a.href=URL.createObjectURL(blob);
+
+    a.download="numbers.json";
+
+    a.click();
+
 }
 
-setInterval(refreshDashboard,3000);
+// ===== JSON Import =====
+
+function importJSON(file){
+
+    const reader=new FileReader();
+
+    reader.onload=e=>{
+
+        try{
+
+            current=JSON.parse(e.target.result);
+
+            saveToTextarea();
+
+            render();
+
+        }catch{
+
+            alert("Invalid JSON");
+
+        }
+
+    };
+
+    reader.readAsText(file);
+
+            }
