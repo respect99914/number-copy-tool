@@ -3,677 +3,149 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore</title>
+<title>QyxnoraCore v2</title>
 
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-background:#050816;
-color:white;
-padding:15px;
-max-width:1100px;
-margin:auto;
-}
-
-h1{
-text-align:center;
-font-size:58px;
-font-weight:800;
-margin-bottom:20px;
-background:linear-gradient(90deg,#00f0ff,#8a7dff,#ff4dff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-text-shadow:0 0 25px rgba(0,255,255,.5);
-}
-
-.glass{
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,255,255,.08);
-}
-
-.watermark-box{
-position:relative;
-margin-bottom:20px;
-overflow:hidden;
-}
-
-.watermark-box::before{
-content:"";
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:420px;
-height:420px;
-background:url('logo.png') center center no-repeat;
-background-size:contain;
-opacity:.08;
-pointer-events:none;
-z-index:1;
-}
-
-textarea{
-width:100%;
-height:240px;
-background:transparent;
-color:white;
-border:none;
-outline:none;
-padding:20px;
-font-size:16px;
-resize:none;
-position:relative;
-z-index:2;
-}
-
-textarea::placeholder{
-color:#9aa3b2;
-}
-
-.input-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:15px;
-margin-bottom:15px;
-}
-
-.input-card{
-padding:15px;
-}
-
-.input-card input{
-width:100%;
-padding:14px;
-background:#0f172a;
-border:1px solid rgba(255,255,255,.08);
-border-radius:12px;
-color:white;
-outline:none;
-margin-bottom:10px;
-}
-
-.btn{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-font-size:16px;
-font-weight:700;
-color:white;
-}
-
-.green{
-background:linear-gradient(90deg,#00c97d,#00a86b);
-}
-
-.blue{
-background:linear-gradient(90deg,#2155ff,#3a86ff);
-}
-
-.red{
-background:linear-gradient(90deg,#ff3366,#d90429);
-}
-
-.purple{
-background:linear-gradient(90deg,#7b2ff7,#b5179e);
-}
-
-.action-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-margin-top:15px;
-}
-
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-top:20px;
-margin-bottom:20px;
-}
-
-.stat-card{
-padding:20px;
-text-align:center;
-}
-
-.stat-title{
-font-size:15px;
-opacity:.8;
-margin-bottom:10px;
-}
-
-.stat-value{
-font-size:32px;
-font-weight:700;
-}
-
-#result{
-margin-top:20px;
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-margin-bottom:10px;
-border-radius:15px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
-}
-
-.left{
-display:flex;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
-}
-
-.flag{
-font-size:24px;
-}
-
-.country{
-font-size:14px;
-color:#8ec5ff;
-}
-
-.number{
-font-size:18px;
-font-weight:700;
-}
-
-.copyBtn{
-background:#00d4aa;
-border:none;
-padding:10px 18px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
-}
-
-@media(max-width:768px){
-
-.input-grid{
-grid-template-columns:1fr;
-}
-
-.action-grid{
-grid-template-columns:1fr;
-}
-
-.stats{
-grid-template-columns:1fr 1fr;
-}
-
-h1{
-font-size:42px;
-}
-
-}
-
-</style>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<h1>QyxnoraCore</h1>
+<div class="sidebar">
 
-<div class="glass watermark-box">
-<textarea id="numbers" placeholder="Paste Lamix Data Here..."></textarea>
+<div class="logo">
+<h2>QyxnoraCore</h2>
+<p>Project Manager</p>
 </div>
 
-<div class="input-grid">
+<button id="newProjectBtn" class="mainBtn">
+➕ New Project
+</button>
 
-<div class="glass input-card">
-<input id="removePrefix" placeholder="Remove Prefix (Country Code)">
-<button class="btn green" onclick="removePrefix()">Remove Prefix</button>
-</div>
-
-<div class="glass input-card">
-<input id="addPrefix" placeholder="Add Prefix (Country Code)">
-<button class="btn blue" onclick="addPrefix()">Add Prefix</button>
-</div>
+<div id="projectList"></div>
 
 </div>
 
-<div class="action-grid">
+<div class="main">
 
-<button class="btn blue" onclick="addPlus()">Add +</button>
+<header>
 
-<button class="btn red" onclick="removePlus()">Remove +</button>
+<h1 id="projectTitle">
+No Project Selected
+</h1>
 
-<button class="btn purple" onclick="copyAll()">Copy All</button>
+<div id="saveStatus">
+Auto Save ✓
+</div>
 
-<button class="btn green" onclick="clearAll()">Clear All</button>
+</header>
 
-<button class="btn blue" onclick="removeDuplicate()">Remove Duplicate</button>
+<div class="glass">
 
-<button class="btn purple" onclick="downloadTxt()">Download TXT</button>
-<button class="btn green" onclick="saveData()">Save Data</button>
+<input
+type="text"
+id="projectName"
+placeholder="Project Name">
+
+<textarea
+id="numbers"
+placeholder="Paste Lamix Data Here...">
+</textarea>
+
+</div>
+
+<div class="grid">
+
+<input
+id="removePrefix"
+placeholder="Remove Prefix">
+
+<button
+onclick="removePrefix()">
+Remove Prefix
+</button>
+
+<input
+id="addPrefix"
+placeholder="Add Prefix">
+
+<button
+onclick="addPrefix()">
+Add Prefix
+</button>
+
+<button onclick="addPlus()">
+Add +
+</button>
+
+<button onclick="removePlus()">
+Remove +
+</button>
+
+<button onclick="removeDuplicate()">
+Remove Duplicate
+</button>
+
+<button onclick="copyAll()">
+Copy All
+</button>
+
+<button onclick="downloadTxt()">
+Download TXT
+</button>
+
 </div>
 
 <div class="stats">
 
-<div class="glass stat-card">
-<div class="stat-title">Total</div>
-<div class="stat-value" id="total">0</div>
+<div class="card">
+
+<div>Total</div>
+
+<h2 id="total">
+0
+</h2>
+
 </div>
 
-<div class="glass stat-card">
-<div class="stat-title">Copied</div>
-<div class="stat-value" id="copied">0</div>
+<div class="card">
+
+<div>Copied</div>
+
+<h2 id="copied">
+0
+</h2>
+
 </div>
 
-<div class="glass stat-card">
-<div class="stat-title">Remaining</div>
-<div class="stat-value" id="remaining">0</div>
+<div class="card">
+
+<div>Pending</div>
+
+<h2 id="remaining">
+0
+</h2>
+
 </div>
 
-<div class="glass stat-card">
-<div class="stat-title">Countries</div>
-<div class="stat-value" id="countries">0</div>
+<div class="card">
+
+<div>Countries</div>
+
+<h2 id="countries">
+0
+</h2>
+
 </div>
 
 </div>
 
 <div id="result"></div>
 
-<script>
-
-let current=[];
-let copiedCount=0;
-
-const flags={
-"Afghanistan":"🇦🇫",
-"Albania":"🇦🇱",
-"Algeria":"🇩🇿",
-"Argentina":"🇦🇷",
-"Australia":"🇦🇺",
-"Austria":"🇦🇹",
-"Bangladesh":"🇧🇩",
-"Belgium":"🇧🇪",
-"Brazil":"🇧🇷",
-"Bulgaria":"🇧🇬",
-"Cambodia":"🇰🇭",
-"Canada":"🇨🇦",
-"Chile":"🇨🇱",
-"China":"🇨🇳",
-"Colombia":"🇨🇴",
-"Congo":"🇨🇩",
-"Croatia":"🇭🇷",
-"Czech Republic":"🇨🇿",
-"Denmark":"🇩🇰",
-"Egypt":"🇪🇬",
-"Estonia":"🇪🇪",
-"Ethiopia":"🇪🇹",
-"Finland":"🇫🇮",
-"France":"🇫🇷",
-"Germany":"🇩🇪",
-"Ghana":"🇬🇭",
-"Greece":"🇬🇷",
-"Hungary":"🇭🇺",
-"India":"🇮🇳",
-"Indonesia":"🇮🇩",
-"Iran":"🇮🇷",
-"Iraq":"🇮🇶",
-"Ireland":"🇮🇪",
-"Israel":"🇮🇱",
-"Italy":"🇮🇹",
-"Japan":"🇯🇵",
-"Jordan":"🇯🇴",
-"Kazakhstan":"🇰🇿",
-"Kenya":"🇰🇪",
-"Kuwait":"🇰🇼",
-"Lebanon":"🇱🇧",
-"Libya":"🇱🇾",
-"Malaysia":"🇲🇾",
-"Mexico":"🇲🇽",
-"Morocco":"🇲🇦",
-"Myanmar":"🇲🇲",
-"Nepal":"🇳🇵",
-"Netherlands":"🇳🇱",
-"New Zealand":"🇳🇿",
-"Nigeria":"🇳🇬",
-"Norway":"🇳🇴",
-"Oman":"🇴🇲",
-"Pakistan":"🇵🇰",
-"Palestine":"🇵🇸",
-"Philippines":"🇵🇭",
-"Poland":"🇵🇱",
-"Portugal":"🇵🇹",
-"Qatar":"🇶🇦",
-"Romania":"🇷🇴",
-"Russia":"🇷🇺",
-"Saudi Arabia":"🇸🇦",
-"Serbia":"🇷🇸",
-"Singapore":"🇸🇬",
-"South Africa":"🇿🇦",
-"South Korea":"🇰🇷",
-"Spain":"🇪🇸",
-"Sri Lanka":"🇱🇰",
-"Sweden":"🇸🇪",
-"Switzerland":"🇨🇭",
-"Syria":"🇸🇾",
-"Thailand":"🇹🇭",
-"Tunisia":"🇹🇳",
-"Turkey":"🇹🇷",
-"Ukraine":"🇺🇦",
-"United Arab Emirates":"🇦🇪",
-"UAE":"🇦🇪",
-"United Kingdom":"🇬🇧",
-"UK":"🇬🇧",
-"United States":"🇺🇸",
-"USA":"🇺🇸",
-"Vietnam":"🇻🇳",
-"Yemen":"🇾🇪",
-"Zimbabwe":"🇿🇼"
-};
-  function detectCountry(text){
-for(let country in flags){
-if(text.includes(country)){
-return country;
-}
-}
-return "Unknown";
-}
-
-function getNumbers(){
-
-let text=document.getElementById("numbers").value;
-
-let lines=text.split("\n");
-
-let data=[];
-
-lines.forEach(line=>{
-
-let match=line.match(/\d{8,15}/);
-
-if(match){
-
-data.push({
-number:match[0],
-country:detectCountry(line)
-});
-
-}
-
-});
-
-return data;
-
-}
-
-function render(){
-
-let result=document.getElementById("result");
-
-result.innerHTML="";
-
-let countrySet=new Set();
-
-current.forEach(item=>{
-
-countrySet.add(item.country);
-
-let flag=flags[item.country] || "🌍";
-
-let row=document.createElement("div");
-
-row.className="row";
-
-row.innerHTML=`
-
-<div class="left">
-
-<div class="flag">${flag}</div>
-
-<div>
-
-<div class="country">${item.country}</div>
-
-<div class="number">${item.number}</div>
-
 </div>
 
-</div>
+<script src="storage.js"></script>
+<script src="project.js"></script>
+<script src="app.js"></script>
 
-<button class="copyBtn"
-onclick="copyNumber('${item.number}')">
-📋 Copy
-</button>
-
-`;
-
-result.appendChild(row);
-
-});
-
-document.getElementById("total").innerText=
-current.length+copiedCount;
-
-document.getElementById("copied").innerText=
-copiedCount;
-
-document.getElementById("remaining").innerText=
-current.length;
-
-document.getElementById("countries").innerText=
-countrySet.size;
-
-}
-
-function loadNumbers(){
-
-current=getNumbers();
-
-render();
-
-}
-
-function removePrefix(){
-
-if(current.length===0)
-current=getNumbers();
-
-let prefix=
-document.getElementById("removePrefix")
-.value.trim();
-
-if(!prefix) return;
-
-current=current.map(item=>{
-
-let num=item.number;
-
-if(num.startsWith(prefix)){
-num=num.slice(prefix.length);
-}
-
-return {
-...item,
-number:num
-};
-
-});
-
-render();
-
-}
-
-function addPrefix(){
-
-if(current.length===0)
-current=getNumbers();
-
-let prefix=
-document.getElementById("addPrefix")
-.value.trim();
-
-if(!prefix) return;
-
-current=current.map(item=>({
-...item,
-number:prefix+item.number
-}));
-
-render();
-
-  }
-  function addPlus(){
-
-if(current.length===0)
-current=getNumbers();
-
-current=current.map(item=>({
-
-...item,
-
-number:item.number.startsWith("+")
-? item.number
-: "+"+item.number
-
-}));
-
-render();
-
-}
-
-function removePlus(){
-
-if(current.length===0)
-current=getNumbers();
-
-current=current.map(item=>({
-
-...item,
-
-number:item.number.replace(/^\+/,'')
-
-}));
-
-render();
-
-}
-
-function copyNumber(num){
-
-navigator.clipboard.writeText(num);
-
-let index=current.findIndex(
-item=>item.number===num
-);
-
-if(index>-1){
-
-current.splice(index,1);
-
-copiedCount++;
-
-}
-
-render();
-
-}
-
-function copyAll(){
-
-if(current.length===0) return;
-
-navigator.clipboard.writeText(
-
-current.map(x=>x.number).join("\n")
-
-);
-
-copiedCount+=current.length;
-
-current=[];
-
-render();
-
-alert("All Numbers Copied");
-
-}
-
-function removeDuplicate(){
-
-let seen=new Set();
-
-current=current.filter(item=>{
-
-if(seen.has(item.number)){
-return false;
-}
-
-seen.add(item.number);
-
-return true;
-
-});
-
-render();
-
-}
-
-function downloadTxt(){
-
-let text=current
-.map(x=>x.number)
-.join("\n");
-
-let blob=new Blob(
-[text],
-{type:"text/plain"}
-);
-
-let a=document.createElement("a");
-
-a.href=
-URL.createObjectURL(blob);
-
-a.download="numbers.txt";
-
-a.click();
-
-}
-
-function clearAll(){
-
-current=[];
-
-copiedCount=0;
-
-document.getElementById("numbers")
-.value="";
-
-render();
-
-}
-
-document
-.getElementById("numbers")
-.addEventListener(
-"input",
-loadNumbers
-);
-
-</script>
-<script src="save.js"></script>
 </body>
-</html>
+  </html>
