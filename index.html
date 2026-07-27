@@ -3,677 +3,830 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>QyxnoraCore</title>
+<title>QyxnoraCore v2 - Smart Number Manager</title>
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-body{
-background:#050816;
-color:white;
-padding:15px;
-max-width:1100px;
-margin:auto;
+body {
+    background-color: #080b13;
+    color: #e2e8f0;
+    min-height: 100vh;
+    display: flex;
 }
 
-h1{
-text-align:center;
-font-size:58px;
-font-weight:800;
-margin-bottom:20px;
-background:linear-gradient(90deg,#00f0ff,#8a7dff,#ff4dff);
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
-text-shadow:0 0 25px rgba(0,255,255,.5);
+/* Dashboard Layout */
+.app-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
 }
 
-.glass{
-background:rgba(255,255,255,.05);
-border:1px solid rgba(255,255,255,.08);
-backdrop-filter:blur(15px);
-border-radius:20px;
-box-shadow:0 0 25px rgba(0,255,255,.08);
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background: #0d111d;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.watermark-box{
-position:relative;
-margin-bottom:20px;
-overflow:hidden;
+.brand-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: #94a3b8;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
 }
 
-.watermark-box::before{
-content:"";
-position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:420px;
-height:420px;
-background:url('logo.png') center center no-repeat;
-background-size:contain;
-opacity:.08;
-pointer-events:none;
-z-index:1;
+.btn-new-proj {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, #6366f1, #a855f7);
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 15px;
 }
 
-textarea{
-width:100%;
-height:240px;
-background:transparent;
-color:white;
-border:none;
-outline:none;
-padding:20px;
-font-size:16px;
-resize:none;
-position:relative;
-z-index:2;
+.section-label {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: bold;
+    letter-spacing: 0.5px;
 }
 
-textarea::placeholder{
-color:#9aa3b2;
+.project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
 }
 
-.input-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-margin-top:15px;
-margin-bottom:15px;
+.project-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    padding: 12px;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.input-card{
-padding:15px;
+.project-card.active {
+    border-color: #3b82f6;
+    background: rgba(59, 130, 246, 0.08);
 }
 
-.input-card input{
-width:100%;
-padding:14px;
-background:#0f172a;
-border:1px solid rgba(255,255,255,.08);
-border-radius:12px;
-color:white;
-outline:none;
-margin-bottom:10px;
+.proj-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    font-weight: bold;
+    margin-bottom: 8px;
 }
 
-.btn{
-width:100%;
-padding:14px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-font-size:16px;
-font-weight:700;
-color:white;
+.proj-stats {
+    font-size: 11px;
+    color: #94a3b8;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
 }
 
-.green{
-background:linear-gradient(90deg,#00c97d,#00a86b);
+.progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
 }
 
-.blue{
-background:linear-gradient(90deg,#2155ff,#3a86ff);
+.progress-fill {
+    height: 100%;
+    background: #10b981;
 }
 
-.red{
-background:linear-gradient(90deg,#ff3366,#d90429);
+/* Sidebar Input Section */
+.new-project-box {
+    margin-top: auto;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 12px;
 }
 
-.purple{
-background:linear-gradient(90deg,#7b2ff7,#b5179e);
+.new-project-box h4 {
+    font-size: 12px;
+    color: #f59e0b;
+    margin-bottom: 10px;
 }
 
-.action-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:15px;
-margin-top:15px;
+.new-project-box label {
+    font-size: 11px;
+    color: #94a3b8;
+    display: block;
+    margin-bottom: 4px;
 }
 
-.stats{
-display:grid;
-grid-template-columns:repeat(4,1fr);
-gap:15px;
-margin-top:20px;
-margin-bottom:20px;
+.new-project-box textarea, .new-project-box input {
+    width: 100%;
+    background: #050816;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    padding: 8px;
+    color: white;
+    font-size: 11px;
+    margin-bottom: 8px;
+    outline: none;
 }
 
-.stat-card{
-padding:20px;
-text-align:center;
+.new-project-box textarea {
+    height: 70px;
+    resize: none;
 }
 
-.stat-title{
-font-size:15px;
-opacity:.8;
-margin-bottom:10px;
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    padding: 20px 30px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.stat-value{
-font-size:32px;
-font-weight:700;
+/* Header Banner */
+.header-banner {
+    text-align: center;
 }
 
-#result{
-margin-top:20px;
+.header-banner h1 {
+    font-size: 32px;
+    font-weight: 800;
+    background: linear-gradient(90deg, #ec4899, #3b82f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
-.row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:15px;
-margin-bottom:10px;
-border-radius:15px;
-background:rgba(255,255,255,.04);
-border:1px solid rgba(255,255,255,.08);
+.header-banner p {
+    font-size: 13px;
+    color: #94a3b8;
 }
 
-.left{
-display:flex;
-align-items:center;
-gap:12px;
-flex-wrap:wrap;
+/* Project Info Row */
+.proj-info-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 12px 20px;
+    border-radius: 12px;
 }
 
-.flag{
-font-size:24px;
+.proj-title-details h2 {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.country{
-font-size:14px;
-color:#8ec5ff;
+.proj-dates {
+    font-size: 11px;
+    color: #64748b;
+    margin-top: 3px;
 }
 
-.number{
-font-size:18px;
-font-weight:700;
+/* Stats Cards */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
 }
 
-.copyBtn{
-background:#00d4aa;
-border:none;
-padding:10px 18px;
-border-radius:10px;
-cursor:pointer;
-font-weight:bold;
+.stat-box {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
-@media(max-width:768px){
-
-.input-grid{
-grid-template-columns:1fr;
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    background: rgba(255, 255, 255, 0.05);
 }
 
-.action-grid{
-grid-template-columns:1fr;
+.stat-info .title {
+    font-size: 11px;
+    color: #94a3b8;
 }
 
-.stats{
-grid-template-columns:1fr 1fr;
+.stat-info .num {
+    font-size: 22px;
+    font-weight: bold;
 }
 
-h1{
-font-size:42px;
+/* Search and Controls */
+.search-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
 }
 
+.search-input {
+    position: relative;
+    flex: 1;
 }
 
+.search-input input {
+    width: 100%;
+    padding: 10px 15px;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    color: white;
+    outline: none;
+}
+
+.filter-btns {
+    display: flex;
+    background: #0f172a;
+    border-radius: 8px;
+    padding: 3px;
+}
+
+.filter-btn {
+    padding: 8px 15px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.filter-btn.active {
+    background: #1e293b;
+    color: white;
+}
+
+/* Numbers List */
+.number-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 380px;
+    overflow-y: auto;
+}
+
+.number-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+/* Copied Row Red/Pink Theme */
+.number-row.is-copied {
+    background: rgba(225, 29, 72, 0.2) !important;
+    border-color: rgba(225, 29, 72, 0.4) !important;
+}
+
+.num-details {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.country-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    width: 120px;
+}
+
+.num-val {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.copy-btn {
+    background: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 6px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.copy-btn.copied {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+}
+
+/* Bottom Action Grid */
+.actions-container {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 15px;
+    border-radius: 12px;
+}
+
+.actions-title {
+    font-size: 11px;
+    color: #64748b;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.inputs-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.inputs-row input {
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    padding: 8px 12px;
+    color: white;
+    outline: none;
+}
+
+.action-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.act-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.btn-emerald { background: #059669; }
+.btn-blue { background: #2563eb; }
+.btn-indigo { background: #4f46e5; }
+.btn-red { background: #e11d48; }
+.btn-purple { background: #9333ea; }
+
+@media(max-width: 900px) {
+    .app-container { flex-direction: column; }
+    .sidebar { width: 100%; }
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+    .action-buttons-grid { grid-template-columns: 1fr 1fr; }
+}
 </style>
 </head>
 
 <body>
 
-<h1>QyxnoraCore</h1>
+<div class="app-container">
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand-title">
+            <span>💻</span> DASHBOARD
+        </div>
 
-<div class="glass watermark-box">
-<textarea id="numbers" placeholder="Paste Lamix Data Here..."></textarea>
+        <button class="btn-new-proj" onclick="focusNewProject()">+ New Project</button>
+
+        <div class="section-label">ALL PROJECTS</div>
+        <div class="project-list" id="projectList">
+            <!-- Dynamic Projects will appear here -->
+        </div>
+
+        <!-- Create Project Form -->
+        <div class="new-project-box">
+            <h4>+ NEW PROJECT</h4>
+            <label>1. Paste Lamix Data Here...</label>
+            <textarea id="numbers" placeholder="Paste data containing numbers..."></textarea>
+            
+            <label>2. Project Name</label>
+            <input type="text" id="projNameInput" placeholder="e.g. Algeria Facebook OTP">
+            
+            <button class="act-btn btn-purple" style="width: 100%;" onclick="saveProject()">💾 Save Project</button>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+    <div class="main-content">
+        
+        <div class="header-banner">
+            <h1>QyxnoraCore v2</h1>
+            <p>Smart Number Manager</p>
+        </div>
+
+        <!-- Active Project Details Bar -->
+        <div class="proj-info-bar">
+            <div class="proj-title-details">
+                <h2 id="currentProjTitle">📖 Select or Create a Project</h2>
+                <div class="proj-dates" id="projDates">Created: -- | Last Updated: --</div>
+            </div>
+            <button class="act-btn btn-red" onclick="deleteCurrentProject()">🗑️ Delete Project</button>
+        </div>
+
+        <!-- Top Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #3b82f6;">📊</div>
+                <div class="stat-info">
+                    <div class="title">Total</div>
+                    <div class="num" id="total">0</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #ec4899;">📋</div>
+                <div class="stat-info">
+                    <div class="title">Copied</div>
+                    <div class="num" id="copied">0</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #6366f1;">⏳</div>
+                <div class="stat-info">
+                    <div class="title">Pending</div>
+                    <div class="num" id="remaining">0</div>
+                </div>
+            </div>
+
+            <div class="stat-box">
+                <div class="stat-icon" style="color: #10b981;">🌐</div>
+                <div class="stat-info">
+                    <div class="title">Countries</div>
+                    <div class="num" id="countries">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Search and Filter Bar -->
+        <div class="search-controls">
+            <div class="search-input">
+                <input type="text" id="searchInput" placeholder="Search number..." oninput="render()">
+            </div>
+            <div class="filter-btns">
+                <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+                <button class="filter-btn" onclick="setFilter('pending', this)">Pending</button>
+                <button class="filter-btn" onclick="setFilter('copied', this)">Copied</button>
+            </div>
+            <button class="act-btn btn-emerald" onclick="downloadTxt()">📥 Export ▾</button>
+        </div>
+
+        <!-- Numbers List -->
+        <div class="number-list" id="result">
+            <!-- Numbers rendered here -->
+        </div>
+
+        <!-- Bottom Actions -->
+        <div class="actions-container">
+            <div class="actions-title">+ QUICK ACTIONS</div>
+            
+            <div class="inputs-row">
+                <input id="removePrefixVal" placeholder="Remove Prefix (e.g. 213)">
+                <input id="addPrefixVal" placeholder="Add Prefix (e.g. 213)">
+            </div>
+
+            <div class="action-buttons-grid">
+                <button class="act-btn btn-emerald" onclick="removePrefix()">Remove Prefix</button>
+                <button class="act-btn btn-blue" onclick="addPrefix()">Add Prefix</button>
+                <button class="act-btn btn-blue" onclick="addPlus()">Add +</button>
+                <button class="act-btn btn-red" onclick="removePlus()">Remove +</button>
+                <button class="act-btn btn-purple" onclick="removeDuplicate()">Remove Duplicate</button>
+                <button class="act-btn btn-indigo" onclick="copyAll()">Copy All</button>
+                <button class="act-btn btn-emerald" onclick="downloadTxt()">Download TXT</button>
+                <button class="act-btn btn-red" onclick="clearAll()">Clear All</button>
+            </div>
+        </div>
+
+    </div>
 </div>
-
-<div class="input-grid">
-
-<div class="glass input-card">
-<input id="removePrefix" placeholder="Remove Prefix (Country Code)">
-<button class="btn green" onclick="removePrefix()">Remove Prefix</button>
-</div>
-
-<div class="glass input-card">
-<input id="addPrefix" placeholder="Add Prefix (Country Code)">
-<button class="btn blue" onclick="addPrefix()">Add Prefix</button>
-</div>
-
-</div>
-
-<div class="action-grid">
-
-<button class="btn blue" onclick="addPlus()">Add +</button>
-
-<button class="btn red" onclick="removePlus()">Remove +</button>
-
-<button class="btn purple" onclick="copyAll()">Copy All</button>
-
-<button class="btn green" onclick="clearAll()">Clear All</button>
-
-<button class="btn blue" onclick="removeDuplicate()">Remove Duplicate</button>
-
-<button class="btn purple" onclick="downloadTxt()">Download TXT</button>
-<button class="btn green" onclick="saveData()">Save Data</button>
-</div>
-
-<div class="stats">
-
-<div class="glass stat-card">
-<div class="stat-title">Total</div>
-<div class="stat-value" id="total">0</div>
-</div>
-
-<div class="glass stat-card">
-<div class="stat-title">Copied</div>
-<div class="stat-value" id="copied">0</div>
-</div>
-
-<div class="glass stat-card">
-<div class="stat-title">Remaining</div>
-<div class="stat-value" id="remaining">0</div>
-</div>
-
-<div class="glass stat-card">
-<div class="stat-title">Countries</div>
-<div class="stat-value" id="countries">0</div>
-</div>
-
-</div>
-
-<div id="result"></div>
 
 <script>
+let projects = JSON.parse(localStorage.getItem('qyxnora_projects')) || [];
+let activeProjIndex = 0;
+let currentFilter = 'all';
 
-let current=[];
-let copiedCount=0;
-
-const flags={
-"Afghanistan":"🇦🇫",
-"Albania":"🇦🇱",
-"Algeria":"🇩🇿",
-"Argentina":"🇦🇷",
-"Australia":"🇦🇺",
-"Austria":"🇦🇹",
-"Bangladesh":"🇧🇩",
-"Belgium":"🇧🇪",
-"Brazil":"🇧🇷",
-"Bulgaria":"🇧🇬",
-"Cambodia":"🇰🇭",
-"Canada":"🇨🇦",
-"Chile":"🇨🇱",
-"China":"🇨🇳",
-"Colombia":"🇨🇴",
-"Congo":"🇨🇩",
-"Croatia":"🇭🇷",
-"Czech Republic":"🇨🇿",
-"Denmark":"🇩🇰",
-"Egypt":"🇪🇬",
-"Estonia":"🇪🇪",
-"Ethiopia":"🇪🇹",
-"Finland":"🇫🇮",
-"France":"🇫🇷",
-"Germany":"🇩🇪",
-"Ghana":"🇬🇭",
-"Greece":"🇬🇷",
-"Hungary":"🇭🇺",
-"India":"🇮🇳",
-"Indonesia":"🇮🇩",
-"Iran":"🇮🇷",
-"Iraq":"🇮🇶",
-"Ireland":"🇮🇪",
-"Israel":"🇮🇱",
-"Italy":"🇮🇹",
-"Japan":"🇯🇵",
-"Jordan":"🇯🇴",
-"Kazakhstan":"🇰🇿",
-"Kenya":"🇰🇪",
-"Kuwait":"🇰🇼",
-"Lebanon":"🇱🇧",
-"Libya":"🇱🇾",
-"Malaysia":"🇲🇾",
-"Mexico":"🇲🇽",
-"Morocco":"🇲🇦",
-"Myanmar":"🇲🇲",
-"Nepal":"🇳🇵",
-"Netherlands":"🇳🇱",
-"New Zealand":"🇳🇿",
-"Nigeria":"🇳🇬",
-"Norway":"🇳🇴",
-"Oman":"🇴🇲",
-"Pakistan":"🇵🇰",
-"Palestine":"🇵🇸",
-"Philippines":"🇵🇭",
-"Poland":"🇵🇱",
-"Portugal":"🇵🇹",
-"Qatar":"🇶🇦",
-"Romania":"🇷🇴",
-"Russia":"🇷🇺",
-"Saudi Arabia":"🇸🇦",
-"Serbia":"🇷🇸",
-"Singapore":"🇸🇬",
-"South Africa":"🇿🇦",
-"South Korea":"🇰🇷",
-"Spain":"🇪🇸",
-"Sri Lanka":"🇱🇰",
-"Sweden":"🇸🇪",
-"Switzerland":"🇨🇭",
-"Syria":"🇸🇾",
-"Thailand":"🇹🇭",
-"Tunisia":"🇹🇳",
-"Turkey":"🇹🇷",
-"Ukraine":"🇺🇦",
-"United Arab Emirates":"🇦🇪",
-"UAE":"🇦🇪",
-"United Kingdom":"🇬🇧",
-"UK":"🇬🇧",
-"United States":"🇺🇸",
-"USA":"🇺🇸",
-"Vietnam":"🇻🇳",
-"Yemen":"🇾🇪",
-"Zimbabwe":"🇿🇼"
+const flags = {
+    "Afghanistan":"🇦🇫","Albania":"🇦🇱","Algeria":"🇩🇿","Argentina":"🇦🇷","Australia":"🇦🇺",
+    "Bangladesh":"🇧🇩","Belgium":"🇧🇪","Brazil":"🇧🇷","Canada":"🇨🇦","China":"🇨🇳",
+    "Egypt":"🇪🇬","France":"🇫🇷","Germany":"🇩🇪","India":"🇮🇳","Indonesia":"🇮🇩",
+    "Italy":"🇮🇹","Malaysia":"🇲🇾","Morocco":"🇲🇦","Pakistan":"🇵🇰","Saudi Arabia":"🇸🇦",
+    "United Arab Emirates":"🇦🇪","United Kingdom":"🇬🇧","United States":"🇺🇸"
 };
-  function detectCountry(text){
-for(let country in flags){
-if(text.includes(country)){
-return country;
-}
-}
-return "Unknown";
-}
 
-function getNumbers(){
-
-let text=document.getElementById("numbers").value;
-
-let lines=text.split("\n");
-
-let data=[];
-
-lines.forEach(line=>{
-
-let match=line.match(/\d{8,15}/);
-
-if(match){
-
-data.push({
-number:match[0],
-country:detectCountry(line)
-});
-
+function detectCountry(text){
+    for(let country in flags){
+        if(text.includes(country)){ return country; }
+    }
+    return "Unknown";
 }
 
-});
+function focusNewProject(){
+    document.getElementById("numbers").focus();
+}
 
-return data;
+function saveProject(){
+    let rawText = document.getElementById("numbers").value;
+    let projName = document.getElementById("projNameInput").value.trim() || "Untitled Project";
+    
+    if(!rawText) return alert("Please paste some data first!");
 
+    let lines = rawText.split("\n");
+    let items = [];
+
+    lines.forEach(line => {
+        let match = line.match(/\d{8,15}/);
+        if(match){
+            items.push({
+                number: match[0],
+                country: detectCountry(line),
+                copied: false
+            });
+        }
+    });
+
+    let newProj = {
+        name: projName,
+        items: items,
+        created: new Date().toLocaleString(),
+        updated: new Date().toLocaleString()
+    };
+
+    projects.push(newProj);
+    activeProjIndex = projects.length - 1;
+    
+    saveToStorage();
+    document.getElementById("numbers").value = "";
+    document.getElementById("projNameInput").value = "";
+    renderApp();
+}
+
+function saveToStorage(){
+    localStorage.setItem('qyxnora_projects', JSON.stringify(projects));
+}
+
+function setFilter(type, btn){
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+}
+
+function renderApp(){
+    renderSidebar();
+    render();
+}
+
+function renderSidebar(){
+    let list = document.getElementById("projectList");
+    list.innerHTML = "";
+
+    projects.forEach((p, idx) => {
+        let total = p.items.length;
+        let copied = p.items.filter(x => x.copied).length;
+        let percent = total > 0 ? Math.round((copied / total) * 100) : 0;
+
+        let card = document.createElement("div");
+        card.className = `project-card ${idx === activeProjIndex ? 'active' : ''}`;
+        card.onclick = () => { activeProjIndex = idx; renderApp(); };
+
+        card.innerHTML = `
+            <div class="proj-header">
+                <span>📖 ${p.name}</span>
+            </div>
+            <div class="proj-stats">
+                <span>${total} Numbers</span>
+                <span>${copied} Copied | ${total - copied} Pending</span>
+                <span>${percent}%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: ${percent}%;"></div>
+            </div>
+        `;
+        list.appendChild(card);
+    });
 }
 
 function render(){
+    let result = document.getElementById("result");
+    result.innerHTML = "";
 
-let result=document.getElementById("result");
+    if(projects.length === 0 || !projects[activeProjIndex]){
+        document.getElementById("currentProjTitle").innerText = "📖 No Projects Saved";
+        document.getElementById("total").innerText = "0";
+        document.getElementById("copied").innerText = "0";
+        document.getElementById("remaining").innerText = "0";
+        document.getElementById("countries").innerText = "0";
+        return;
+    }
 
-result.innerHTML="";
+    let proj = projects[activeProjIndex];
+    document.getElementById("currentProjTitle").innerText = `📖 ${proj.name}`;
+    document.getElementById("projDates").innerText = `Created: ${proj.created} | Last Updated: ${proj.updated}`;
 
-let countrySet=new Set();
+    let searchVal = document.getElementById("searchInput").value.toLowerCase();
+    let countrySet = new Set();
+    let copiedCount = 0;
 
-current.forEach(item=>{
+    proj.items.forEach(item => {
+        if(item.copied) copiedCount++;
+        countrySet.add(item.country);
+    });
 
-countrySet.add(item.country);
+    let filteredItems = proj.items.filter(item => {
+        let matchesSearch = item.number.toLowerCase().includes(searchVal) || item.country.toLowerCase().includes(searchVal);
+        if(currentFilter === 'copied') return matchesSearch && item.copied;
+        if(currentFilter === 'pending') return matchesSearch && !item.copied;
+        return matchesSearch;
+    });
 
-let flag=flags[item.country] || "🌍";
+    filteredItems.forEach((item, index) => {
+        let flag = flags[item.country] || "🌍";
+        let row = document.createElement("div");
+        row.className = `number-row ${item.copied ? 'is-copied' : ''}`;
 
-let row=document.createElement("div");
+        row.innerHTML = `
+            <div class="num-details">
+                <div class="country-tag">${flag} ${item.country}</div>
+                <div class="num-val">${item.number}</div>
+            </div>
+            <button class="copy-btn ${item.copied ? 'copied' : ''}" onclick="copyNumber('${item.number}')">
+                ${item.copied ? 'Copied ✓' : '📋 Copy'}
+            </button>
+        `;
+        result.appendChild(row);
+    });
 
-row.className="row";
-
-row.innerHTML=`
-
-<div class="left">
-
-<div class="flag">${flag}</div>
-
-<div>
-
-<div class="country">${item.country}</div>
-
-<div class="number">${item.number}</div>
-
-</div>
-
-</div>
-
-<button class="copyBtn"
-onclick="copyNumber('${item.number}')">
-📋 Copy
-</button>
-
-`;
-
-result.appendChild(row);
-
-});
-
-document.getElementById("total").innerText=
-current.length+copiedCount;
-
-document.getElementById("copied").innerText=
-copiedCount;
-
-document.getElementById("remaining").innerText=
-current.length;
-
-document.getElementById("countries").innerText=
-countrySet.size;
-
-}
-
-function loadNumbers(){
-
-current=getNumbers();
-
-render();
-
-}
-
-function removePrefix(){
-
-if(current.length===0)
-current=getNumbers();
-
-let prefix=
-document.getElementById("removePrefix")
-.value.trim();
-
-if(!prefix) return;
-
-current=current.map(item=>{
-
-let num=item.number;
-
-if(num.startsWith(prefix)){
-num=num.slice(prefix.length);
-}
-
-return {
-...item,
-number:num
-};
-
-});
-
-render();
-
-}
-
-function addPrefix(){
-
-if(current.length===0)
-current=getNumbers();
-
-let prefix=
-document.getElementById("addPrefix")
-.value.trim();
-
-if(!prefix) return;
-
-current=current.map(item=>({
-...item,
-number:prefix+item.number
-}));
-
-render();
-
-  }
-  function addPlus(){
-
-if(current.length===0)
-current=getNumbers();
-
-current=current.map(item=>({
-
-...item,
-
-number:item.number.startsWith("+")
-? item.number
-: "+"+item.number
-
-}));
-
-render();
-
-}
-
-function removePlus(){
-
-if(current.length===0)
-current=getNumbers();
-
-current=current.map(item=>({
-
-...item,
-
-number:item.number.replace(/^\+/,'')
-
-}));
-
-render();
-
+    document.getElementById("total").innerText = proj.items.length;
+    document.getElementById("copied").innerText = copiedCount;
+    document.getElementById("remaining").innerText = proj.items.length - copiedCount;
+    document.getElementById("countries").innerText = countrySet.size;
 }
 
 function copyNumber(num){
-
-navigator.clipboard.writeText(num);
-
-let index=current.findIndex(
-item=>item.number===num
-);
-
-if(index>-1){
-
-current.splice(index,1);
-
-copiedCount++;
-
-}
-
-render();
-
+    navigator.clipboard.writeText(num);
+    let proj = projects[activeProjIndex];
+    let item = proj.items.find(x => x.number === num);
+    if(item){
+        item.copied = true;
+        proj.updated = new Date().toLocaleString();
+        saveToStorage();
+        renderApp();
+    }
 }
 
 function copyAll(){
+    let proj = projects[activeProjIndex];
+    if(!proj || proj.items.length === 0) return;
 
-if(current.length===0) return;
+    let uncopied = proj.items.filter(x => !x.copied).map(x => x.number).join("\n");
+    if(!uncopied) uncopied = proj.items.map(x => x.number).join("\n");
 
-navigator.clipboard.writeText(
+    navigator.clipboard.writeText(uncopied);
+    proj.items.forEach(x => x.copied = true);
+    proj.updated = new Date().toLocaleString();
+    saveToStorage();
+    renderApp();
+    alert("Copied!");
+}
 
-current.map(x=>x.number).join("\n")
+function removePrefix(){
+    let prefix = document.getElementById("removePrefixVal").value.trim();
+    let proj = projects[activeProjIndex];
+    if(!prefix || !proj) return;
 
-);
+    proj.items.forEach(item => {
+        if(item.number.startsWith(prefix)){
+            item.number = item.number.slice(prefix.length);
+        }
+    });
+    saveToStorage();
+    renderApp();
+}
 
-copiedCount+=current.length;
+function addPrefix(){
+    let prefix = document.getElementById("addPrefixVal").value.trim();
+    let proj = projects[activeProjIndex];
+    if(!prefix || !proj) return;
 
-current=[];
+    proj.items.forEach(item => {
+        item.number = prefix + item.number;
+    });
+    saveToStorage();
+    renderApp();
+}
 
-render();
+function addPlus(){
+    let proj = projects[activeProjIndex];
+    if(!proj) return;
 
-alert("All Numbers Copied");
+    proj.items.forEach(item => {
+        if(!item.number.startsWith("+")) item.number = "+" + item.number;
+    });
+    saveToStorage();
+    renderApp();
+}
 
+function removePlus(){
+    let proj = projects[activeProjIndex];
+    if(!proj) return;
+
+    proj.items.forEach(item => {
+        item.number = item.number.replace(/^\+/, '');
+    });
+    saveToStorage();
+    renderApp();
 }
 
 function removeDuplicate(){
+    let proj = projects[activeProjIndex];
+    if(!proj) return;
 
-let seen=new Set();
-
-current=current.filter(item=>{
-
-if(seen.has(item.number)){
-return false;
-}
-
-seen.add(item.number);
-
-return true;
-
-});
-
-render();
-
-}
-
-function downloadTxt(){
-
-let text=current
-.map(x=>x.number)
-.join("\n");
-
-let blob=new Blob(
-[text],
-{type:"text/plain"}
-);
-
-let a=document.createElement("a");
-
-a.href=
-URL.createObjectURL(blob);
-
-a.download="numbers.txt";
-
-a.click();
-
+    let seen = new Set();
+    proj.items = proj.items.filter(item => {
+        if(seen.has(item.number)) return false;
+        seen.add(item.number);
+        return true;
+    });
+    saveToStorage();
+    renderApp();
 }
 
 function clearAll(){
+    let proj = projects[activeProjIndex];
+    if(!proj) return;
 
-current=[];
-
-copiedCount=0;
-
-document.getElementById("numbers")
-.value="";
-
-render();
-
+    proj.items = [];
+    saveToStorage();
+    renderApp();
 }
 
-document
-.getElementById("numbers")
-.addEventListener(
-"input",
-loadNumbers
-);
+function deleteCurrentProject(){
+    if(projects.length === 0) return;
+    if(confirm("Are you sure you want to delete this project?")){
+        projects.splice(activeProjIndex, 1);
+        activeProjIndex = 0;
+        saveToStorage();
+        renderApp();
+    }
+}
 
+function downloadTxt(){
+    let proj = projects[activeProjIndex];
+    if(!proj || proj.items.length === 0) return;
+
+    let text = proj.items.map(x => x.number).join("\n");
+    let blob = new Blob([text], {type: "text/plain"});
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `${proj.name.replace(/\s+/g, '_')}_numbers.txt`;
+    a.click();
+}
+
+// Initial render
+renderApp();
 </script>
-<script src="save.js"></script>
+
 </body>
 </html>
