@@ -20,7 +20,6 @@ body {
     display: flex;
 }
 
-/* Dashboard Layout */
 .app-container {
     display: flex;
     width: 100%;
@@ -29,7 +28,7 @@ body {
 
 /* Sidebar */
 .sidebar {
-    width: 300px;
+    width: 320px;
     background: #0d111d;
     border-right: 1px solid rgba(255, 255, 255, 0.08);
     padding: 20px 15px;
@@ -46,19 +45,6 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-bottom: 5px;
-}
-
-.btn-new-proj {
-    width: 100%;
-    padding: 12px;
-    background: linear-gradient(90deg, #6366f1, #a855f7);
-    border: none;
-    border-radius: 10px;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    margin-bottom: 15px;
 }
 
 .section-label {
@@ -72,6 +58,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 200px;
     overflow-y: auto;
 }
 
@@ -79,49 +66,29 @@ body {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 10px;
-    padding: 12px;
+    padding: 10px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .project-card.active {
     border-color: #3b82f6;
-    background: rgba(59, 130, 246, 0.08);
+    background: rgba(59, 130, 246, 0.1);
 }
 
 .proj-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 13px;
+    font-size: 12px;
     font-weight: bold;
-    margin-bottom: 8px;
+    margin-bottom: 5px;
 }
 
 .proj-stats {
-    font-size: 11px;
+    font-size: 10px;
     color: #94a3b8;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 6px;
 }
 
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 2px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    height: 100%;
-    background: #10b981;
-}
-
-/* Sidebar Input Section */
 .new-project-box {
-    margin-top: auto;
     background: rgba(255, 255, 255, 0.02);
     border: 1px dashed rgba(255, 255, 255, 0.15);
     border-radius: 12px;
@@ -131,7 +98,7 @@ body {
 .new-project-box h4 {
     font-size: 12px;
     color: #f59e0b;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .new-project-box label {
@@ -148,13 +115,13 @@ body {
     border-radius: 6px;
     padding: 8px;
     color: white;
-    font-size: 11px;
+    font-size: 12px;
     margin-bottom: 8px;
     outline: none;
 }
 
 .new-project-box textarea {
-    height: 70px;
+    height: 140px;
     resize: none;
 }
 
@@ -168,7 +135,6 @@ body {
     gap: 20px;
 }
 
-/* Header Banner */
 .header-banner {
     text-align: center;
 }
@@ -184,30 +150,6 @@ body {
 .header-banner p {
     font-size: 13px;
     color: #94a3b8;
-}
-
-/* Project Info Row */
-.proj-info-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    padding: 12px 20px;
-    border-radius: 12px;
-}
-
-.proj-title-details h2 {
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.proj-dates {
-    font-size: 11px;
-    color: #64748b;
-    margin-top: 3px;
 }
 
 /* Stats Cards */
@@ -257,7 +199,6 @@ body {
 }
 
 .search-input {
-    position: relative;
     flex: 1;
 }
 
@@ -298,8 +239,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-height: 380px;
+    max-height: 400px;
     overflow-y: auto;
+    min-height: 100px;
 }
 
 .number-row {
@@ -310,19 +252,17 @@ body {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 10px;
-    transition: 0.2s;
 }
 
-/* Copied Row Red/Pink Theme */
 .number-row.is-copied {
-    background: rgba(225, 29, 72, 0.2) !important;
-    border-color: rgba(225, 29, 72, 0.4) !important;
+    background: rgba(225, 29, 72, 0.25) !important;
+    border-color: rgba(225, 29, 72, 0.5) !important;
 }
 
 .num-details {
     display: flex;
     align-items: center;
-    gap: 25px;
+    gap: 20px;
 }
 
 .country-tag {
@@ -330,20 +270,20 @@ body {
     align-items: center;
     gap: 8px;
     font-size: 13px;
-    width: 120px;
+    width: 180px;
+    color: #8ec5ff;
 }
 
 .num-val {
-    font-size: 15px;
-    font-weight: 600;
-    letter-spacing: 0.5px;
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .copy-btn {
-    background: rgba(16, 185, 129, 0.15);
-    color: #10b981;
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    padding: 6px 16px;
+    background: #10b981;
+    color: white;
+    border: none;
+    padding: 8px 18px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
@@ -352,11 +292,10 @@ body {
 
 .copy-btn.copied {
     background: transparent;
-    border: none;
     color: #ffffff;
 }
 
-/* Bottom Action Grid */
+/* Bottom Actions */
 .actions-container {
     background: rgba(255, 255, 255, 0.02);
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -382,7 +321,7 @@ body {
     background: #0f172a;
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 8px;
-    padding: 8px 12px;
+    padding: 10px;
     color: white;
     outline: none;
 }
@@ -394,13 +333,13 @@ body {
 }
 
 .act-btn {
-    padding: 10px;
+    padding: 12px;
     border: none;
     border-radius: 8px;
     color: white;
     font-weight: bold;
     cursor: pointer;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .btn-emerald { background: #059669; }
@@ -428,24 +367,19 @@ body {
             <span>💻</span> DASHBOARD
         </div>
 
-        <button class="btn-new-proj" onclick="focusNewProject()">+ New Project</button>
-
-        <div class="section-label">ALL PROJECTS</div>
-        <div class="project-list" id="projectList">
-            <!-- Dynamic Projects will appear here -->
-        </div>
-
-        <!-- Create Project Form -->
         <div class="new-project-box">
-            <h4>+ NEW PROJECT</h4>
-            <label>1. Paste Lamix Data Here...</label>
-            <textarea id="numbers" placeholder="Paste data containing numbers..."></textarea>
+            <h4>+ PASTE DATA HERE</h4>
+            <label>1. Paste Lamix / Raw Data</label>
+            <textarea id="numbers" placeholder="Paste data containing numbers here..." oninput="loadNumbersFromText()"></textarea>
             
-            <label>2. Project Name</label>
+            <label>2. Project Name (Optional)</label>
             <input type="text" id="projNameInput" placeholder="e.g. Algeria Facebook OTP">
             
             <button class="act-btn btn-purple" style="width: 100%;" onclick="saveProject()">💾 Save Project</button>
         </div>
+
+        <div class="section-label">SAVED PROJECTS</div>
+        <div class="project-list" id="projectList"></div>
     </div>
 
     <!-- Main Section -->
@@ -456,16 +390,7 @@ body {
             <p>Smart Number Manager</p>
         </div>
 
-        <!-- Active Project Details Bar -->
-        <div class="proj-info-bar">
-            <div class="proj-title-details">
-                <h2 id="currentProjTitle">📖 Select or Create a Project</h2>
-                <div class="proj-dates" id="projDates">Created: -- | Last Updated: --</div>
-            </div>
-            <button class="act-btn btn-red" onclick="deleteCurrentProject()">🗑️ Delete Project</button>
-        </div>
-
-        <!-- Top Stats Cards -->
+        <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-box">
                 <div class="stat-icon" style="color: #3b82f6;">📊</div>
@@ -486,7 +411,7 @@ body {
             <div class="stat-box">
                 <div class="stat-icon" style="color: #6366f1;">⏳</div>
                 <div class="stat-info">
-                    <div class="title">Pending</div>
+                    <div class="title">Remaining</div>
                     <div class="num" id="remaining">0</div>
                 </div>
             </div>
@@ -500,7 +425,7 @@ body {
             </div>
         </div>
 
-        <!-- Search and Filter Bar -->
+        <!-- Controls Bar -->
         <div class="search-controls">
             <div class="search-input">
                 <input type="text" id="searchInput" placeholder="Search number..." oninput="render()">
@@ -510,21 +435,19 @@ body {
                 <button class="filter-btn" onclick="setFilter('pending', this)">Pending</button>
                 <button class="filter-btn" onclick="setFilter('copied', this)">Copied</button>
             </div>
-            <button class="act-btn btn-emerald" onclick="downloadTxt()">📥 Export ▾</button>
+            <button class="act-btn btn-emerald" onclick="downloadTxt()">📥 Export TXT</button>
         </div>
 
-        <!-- Numbers List -->
-        <div class="number-list" id="result">
-            <!-- Numbers rendered here -->
-        </div>
+        <!-- Numbers List Area -->
+        <div class="number-list" id="result"></div>
 
-        <!-- Bottom Actions -->
+        <!-- Quick Actions -->
         <div class="actions-container">
             <div class="actions-title">+ QUICK ACTIONS</div>
             
             <div class="inputs-row">
-                <input id="removePrefixVal" placeholder="Remove Prefix (e.g. 213)">
-                <input id="addPrefixVal" placeholder="Add Prefix (e.g. 213)">
+                <input id="removePrefixVal" placeholder="Remove Prefix (e.g. 216)">
+                <input id="addPrefixVal" placeholder="Add Prefix (e.g. 216)">
             </div>
 
             <div class="action-buttons-grid">
@@ -543,16 +466,81 @@ body {
 </div>
 
 <script>
+let currentItems = [];
 let projects = JSON.parse(localStorage.getItem('qyxnora_projects')) || [];
-let activeProjIndex = 0;
+let activeProjIndex = -1;
 let currentFilter = 'all';
 
 const flags = {
-    "Afghanistan":"🇦🇫","Albania":"🇦🇱","Algeria":"🇩🇿","Argentina":"🇦🇷","Australia":"🇦🇺",
-    "Bangladesh":"🇧🇩","Belgium":"🇧🇪","Brazil":"🇧🇷","Canada":"🇨🇦","China":"🇨🇳",
-    "Egypt":"🇪🇬","France":"🇫🇷","Germany":"🇩🇪","India":"🇮🇳","Indonesia":"🇮🇩",
-    "Italy":"🇮🇹","Malaysia":"🇲🇾","Morocco":"🇲🇦","Pakistan":"🇵🇰","Saudi Arabia":"🇸🇦",
-    "United Arab Emirates":"🇦🇪","United Kingdom":"🇬🇧","United States":"🇺🇸"
+    "Comoros":"🇰🇲",
+    "Tanzania":"🇹🇿",
+    "Palestine":"🇵🇸",
+    "Sri Lanka":"🇱🇰",
+    "Cambodia":"🇰🇭",
+    "Malaysia":"🇲🇾",
+    "Algeria":"🇩🇿",
+    "Myanmar":"🇲🇲",
+    "Angola":"🇦🇴",
+    "Afghanistan":"🇦🇫",
+    "Argentina":"🇦🇷",
+    "Armenia Karabakh":"🇦🇲",
+    "Armenia":"🇦🇲",
+    "Azerbaijan":"🇦🇿",
+    "Belarus":"🇧🇾",
+    "Benin":"🇧🇯",
+    "Bhutan":"🇧🇹",
+    "Bolivia":"🇧🇴",
+    "Bulgaria":"🇧🇬",
+    "Burkina":"🇧🇫",
+    "Cameroon":"🇨🇲",
+    "Ecuador":"🇪🇨",
+    "Egypt":"🇪🇬",
+    "Ethiopia":"🇪🇹",
+    "Gabon":"🇬🇦",
+    "Georgia":"🇬🇪",
+    "Germany":"🇩🇪",
+    "Guinea":"🇬🇳",
+    "Indonesia":"🇮🇩",
+    "Iraq":"🇮🇶",
+    "Ivory Coast":"🇨🇮",
+    "Jordan":"🇯🇴",
+    "Kazakhstan":"🇰🇿",
+    "Kenya":"🇰🇪",
+    "Kosovo":"🇽🇰",
+    "Kuwait":"🇰🇼",
+    "Kyrgyzstan":"🇰🇬",
+    "Lesotho":"🇱🇸",
+    "Libya":"🇱🇾",
+    "Madagascar":"🇲🇬",
+    "Mauritania":"🇲🇷",
+    "Moldova":"🇲🇩",
+    "Mongolia":"🇲🇳",
+    "Morocco":"🇲🇦",
+    "Mozambique":"🇲🇿",
+    "Nepal":"🇳🇵",
+    "Niger":"🇳🇪",
+    "Nigeria":"🇳🇬",
+    "Oman":"🇴🇲",
+    "Pakistan":"🇵🇰",
+    "Russia (Many Series)":"🇷🇺",
+    "Russia":"🇷🇺",
+    "Saudi Arabia":"🇸🇦",
+    "Senegal":"🇸🇳",
+    "Slovenia (K)":"🇸🇮",
+    "Slovenia":"🇸🇮",
+    "Sudan (Sudatel)":"🇸🇩",
+    "Sudan":"🇸🇩",
+    "Syria":"🇸🇾",
+    "Tajikistan":"🇹🇯",
+    "Tunisia":"🇹🇳",
+    "Uganda":"🇺🇬",
+    "Ukraine":"🇺🇦",
+    "United Arab Emirates":"🇦🇪",
+    "UAE":"🇦🇪",
+    "Uzbekistan":"🇺🇿",
+    "Vietnam (Mobifone)":"🇻🇳",
+    "Vietnam":"🇻🇳",
+    "Zimbabwe":"🇿🇼"
 };
 
 function detectCountry(text){
@@ -562,23 +550,16 @@ function detectCountry(text){
     return "Unknown";
 }
 
-function focusNewProject(){
-    document.getElementById("numbers").focus();
-}
-
-function saveProject(){
-    let rawText = document.getElementById("numbers").value;
-    let projName = document.getElementById("projNameInput").value.trim() || "Untitled Project";
-    
-    if(!rawText) return alert("Please paste some data first!");
-
-    let lines = rawText.split("\n");
-    let items = [];
+function loadNumbersFromText(){
+    activeProjIndex = -1;
+    let text = document.getElementById("numbers").value;
+    let lines = text.split("\n");
+    currentItems = [];
 
     lines.forEach(line => {
         let match = line.match(/\d{8,15}/);
         if(match){
-            items.push({
+            currentItems.push({
                 number: match[0],
                 country: detectCountry(line),
                 copied: false
@@ -586,102 +567,31 @@ function saveProject(){
         }
     });
 
-    let newProj = {
-        name: projName,
-        items: items,
-        created: new Date().toLocaleString(),
-        updated: new Date().toLocaleString()
-    };
-
-    projects.push(newProj);
-    activeProjIndex = projects.length - 1;
-    
-    saveToStorage();
-    document.getElementById("numbers").value = "";
-    document.getElementById("projNameInput").value = "";
-    renderApp();
-}
-
-function saveToStorage(){
-    localStorage.setItem('qyxnora_projects', JSON.stringify(projects));
-}
-
-function setFilter(type, btn){
-    currentFilter = type;
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    render();
-}
-
-function renderApp(){
     renderSidebar();
     render();
-}
-
-function renderSidebar(){
-    let list = document.getElementById("projectList");
-    list.innerHTML = "";
-
-    projects.forEach((p, idx) => {
-        let total = p.items.length;
-        let copied = p.items.filter(x => x.copied).length;
-        let percent = total > 0 ? Math.round((copied / total) * 100) : 0;
-
-        let card = document.createElement("div");
-        card.className = `project-card ${idx === activeProjIndex ? 'active' : ''}`;
-        card.onclick = () => { activeProjIndex = idx; renderApp(); };
-
-        card.innerHTML = `
-            <div class="proj-header">
-                <span>📖 ${p.name}</span>
-            </div>
-            <div class="proj-stats">
-                <span>${total} Numbers</span>
-                <span>${copied} Copied | ${total - copied} Pending</span>
-                <span>${percent}%</span>
-            </div>
-            <div class="progress-bar">
-                <div class="progress-fill" style="width: ${percent}%;"></div>
-            </div>
-        `;
-        list.appendChild(card);
-    });
 }
 
 function render(){
     let result = document.getElementById("result");
     result.innerHTML = "";
 
-    if(projects.length === 0 || !projects[activeProjIndex]){
-        document.getElementById("currentProjTitle").innerText = "📖 No Projects Saved";
-        document.getElementById("total").innerText = "0";
-        document.getElementById("copied").innerText = "0";
-        document.getElementById("remaining").innerText = "0";
-        document.getElementById("countries").innerText = "0";
-        return;
-    }
-
-    let proj = projects[activeProjIndex];
-    document.getElementById("currentProjTitle").innerText = `📖 ${proj.name}`;
-    document.getElementById("projDates").innerText = `Created: ${proj.created} | Last Updated: ${proj.updated}`;
-
     let searchVal = document.getElementById("searchInput").value.toLowerCase();
     let countrySet = new Set();
     let copiedCount = 0;
 
-    proj.items.forEach(item => {
+    currentItems.forEach(item => {
         if(item.copied) copiedCount++;
         countrySet.add(item.country);
     });
 
-    let filteredItems = proj.items.filter(item => {
+    let filteredItems = currentItems.filter(item => {
         let matchesSearch = item.number.toLowerCase().includes(searchVal) || item.country.toLowerCase().includes(searchVal);
         if(currentFilter === 'copied') return matchesSearch && item.copied;
         if(currentFilter === 'pending') return matchesSearch && !item.copied;
         return matchesSearch;
     });
 
-    filteredItems.forEach((item, index) => {
+    filteredItems.forEach((item) => {
         let flag = flags[item.country] || "🌍";
         let row = document.createElement("div");
         row.className = `number-row ${item.copied ? 'is-copied' : ''}`;
@@ -698,134 +608,170 @@ function render(){
         result.appendChild(row);
     });
 
-    document.getElementById("total").innerText = proj.items.length;
+    document.getElementById("total").innerText = currentItems.length;
     document.getElementById("copied").innerText = copiedCount;
-    document.getElementById("remaining").innerText = proj.items.length - copiedCount;
+    document.getElementById("remaining").innerText = currentItems.length - copiedCount;
     document.getElementById("countries").innerText = countrySet.size;
 }
 
 function copyNumber(num){
     navigator.clipboard.writeText(num);
-    let proj = projects[activeProjIndex];
-    let item = proj.items.find(x => x.number === num);
+    let item = currentItems.find(x => x.number === num);
     if(item){
         item.copied = true;
-        proj.updated = new Date().toLocaleString();
-        saveToStorage();
-        renderApp();
+        updateActiveProject();
+        render();
     }
 }
 
 function copyAll(){
-    let proj = projects[activeProjIndex];
-    if(!proj || proj.items.length === 0) return;
-
-    let uncopied = proj.items.filter(x => !x.copied).map(x => x.number).join("\n");
-    if(!uncopied) uncopied = proj.items.map(x => x.number).join("\n");
+    if(currentItems.length === 0) return;
+    let uncopied = currentItems.filter(x => !x.copied).map(x => x.number).join("\n");
+    if(!uncopied) uncopied = currentItems.map(x => x.number).join("\n");
 
     navigator.clipboard.writeText(uncopied);
-    proj.items.forEach(x => x.copied = true);
-    proj.updated = new Date().toLocaleString();
-    saveToStorage();
-    renderApp();
-    alert("Copied!");
+    currentItems.forEach(x => x.copied = true);
+    updateActiveProject();
+    render();
+    alert("Copied All Numbers!");
 }
 
 function removePrefix(){
     let prefix = document.getElementById("removePrefixVal").value.trim();
-    let proj = projects[activeProjIndex];
-    if(!prefix || !proj) return;
+    if(!prefix || currentItems.length === 0) return;
 
-    proj.items.forEach(item => {
+    currentItems.forEach(item => {
         if(item.number.startsWith(prefix)){
             item.number = item.number.slice(prefix.length);
         }
     });
-    saveToStorage();
-    renderApp();
+    updateActiveProject();
+    render();
 }
 
 function addPrefix(){
     let prefix = document.getElementById("addPrefixVal").value.trim();
-    let proj = projects[activeProjIndex];
-    if(!prefix || !proj) return;
+    if(!prefix || currentItems.length === 0) return;
 
-    proj.items.forEach(item => {
+    currentItems.forEach(item => {
         item.number = prefix + item.number;
     });
-    saveToStorage();
-    renderApp();
+    updateActiveProject();
+    render();
 }
 
 function addPlus(){
-    let proj = projects[activeProjIndex];
-    if(!proj) return;
-
-    proj.items.forEach(item => {
+    if(currentItems.length === 0) return;
+    currentItems.forEach(item => {
         if(!item.number.startsWith("+")) item.number = "+" + item.number;
     });
-    saveToStorage();
-    renderApp();
+    updateActiveProject();
+    render();
 }
 
 function removePlus(){
-    let proj = projects[activeProjIndex];
-    if(!proj) return;
-
-    proj.items.forEach(item => {
+    if(currentItems.length === 0) return;
+    currentItems.forEach(item => {
         item.number = item.number.replace(/^\+/, '');
     });
-    saveToStorage();
-    renderApp();
+    updateActiveProject();
+    render();
 }
 
 function removeDuplicate(){
-    let proj = projects[activeProjIndex];
-    if(!proj) return;
-
     let seen = new Set();
-    proj.items = proj.items.filter(item => {
+    currentItems = currentItems.filter(item => {
         if(seen.has(item.number)) return false;
         seen.add(item.number);
         return true;
     });
-    saveToStorage();
-    renderApp();
+    updateActiveProject();
+    render();
 }
 
 function clearAll(){
-    let proj = projects[activeProjIndex];
-    if(!proj) return;
-
-    proj.items = [];
-    saveToStorage();
-    renderApp();
+    currentItems = [];
+    document.getElementById("numbers").value = "";
+    updateActiveProject();
+    render();
 }
 
-function deleteCurrentProject(){
-    if(projects.length === 0) return;
-    if(confirm("Are you sure you want to delete this project?")){
-        projects.splice(activeProjIndex, 1);
-        activeProjIndex = 0;
+function setFilter(type, btn){
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+}
+
+/* Projects Functions */
+function saveProject(){
+    let projName = document.getElementById("projNameInput").value.trim() || "Untitled Project";
+    if(currentItems.length === 0) return alert("Please paste some data first!");
+
+    let newProj = {
+        name: projName,
+        items: JSON.parse(JSON.stringify(currentItems))
+    };
+
+    projects.push(newProj);
+    activeProjIndex = projects.length - 1;
+    saveToStorage();
+    renderSidebar();
+    alert("Project Saved Successfully!");
+}
+
+function updateActiveProject(){
+    if(activeProjIndex >= 0 && projects[activeProjIndex]){
+        projects[activeProjIndex].items = JSON.parse(JSON.stringify(currentItems));
         saveToStorage();
-        renderApp();
+        renderSidebar();
     }
 }
 
-function downloadTxt(){
-    let proj = projects[activeProjIndex];
-    if(!proj || proj.items.length === 0) return;
+function saveToStorage(){
+    localStorage.setItem('qyxnora_projects', JSON.stringify(projects));
+}
 
-    let text = proj.items.map(x => x.number).join("\n");
+function renderSidebar(){
+    let list = document.getElementById("projectList");
+    list.innerHTML = "";
+
+    projects.forEach((p, idx) => {
+        let total = p.items.length;
+        let copied = p.items.filter(x => x.copied).length;
+
+        let card = document.createElement("div");
+        card.className = `project-card ${idx === activeProjIndex ? 'active' : ''}`;
+        card.onclick = () => { 
+            activeProjIndex = idx; 
+            currentItems = JSON.parse(JSON.stringify(p.items));
+            renderSidebar();
+            render();
+        };
+
+        card.innerHTML = `
+            <div class="proj-header">📖 ${p.name}</div>
+            <div class="proj-stats">
+                <span>${total} Numbers</span>
+                <span>${copied} Copied</span>
+            </div>
+        `;
+        list.appendChild(card);
+    });
+}
+
+function downloadTxt(){
+    if(currentItems.length === 0) return;
+    let text = currentItems.map(x => x.number).join("\n");
     let blob = new Blob([text], {type: "text/plain"});
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `${proj.name.replace(/\s+/g, '_')}_numbers.txt`;
+    a.download = `numbers.txt`;
     a.click();
 }
 
-// Initial render
-renderApp();
+renderSidebar();
+render();
 </script>
 
 </body>
